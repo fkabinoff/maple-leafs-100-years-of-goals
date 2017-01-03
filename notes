@@ -1,0 +1,16 @@
+var msg = {
+    "jsonrpc": "2.0",
+    "method": "ApplyPatches",
+    "handle": model.handle,
+    "params": [
+        [
+            {
+                "qPath": "/qHyperCubeDef/qStateName",
+                "qOp": "replace",
+                "qValue": JSON.stringify("State2")
+            }
+        ]
+    ]
+}
+
+model.session.rpc(msg);
