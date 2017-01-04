@@ -14,3 +14,47 @@ var msg = {
 }
 
 model.session.rpc(msg);
+
+
+
+All of these change state between modes
+
+LISTS
+Season
+Decade
+Subject ([Player Name] or [Opponent])
+
+CUBES
+//for main chart
+Dimension 
+    - Season
+Measures (Player Mode)
+    - Sum(Goals)
+    - Sum([Post-season Goals])
+    - Sum([Even Strength Goals])
+    - Sum([Post-season Even Strength Goals])
+    - Sum([Power Play Goals])
+    - Sum([Post-season Power Play Goals])
+    - Sum([Short Handed Goals])
+    - sum([Post-season Short Handed Goals])
+Measures (Opponent Mode)
+    - Sum({<[Regular/Post Season]={'Regular season'}>} [Opponent Goals])
+    - Sum({<[Regular/Post Season]={'Post-season'}>} [Opponent Goals])
+
+//for bar chart -- This chart can also change based on measure selection
+Dimension (Player Mode)
+    - Player Name
+Dimension (Opponent Mode)
+    - Opponent
+Measures (Player Mode)
+    - Sum(Goals) + Sum([Post-season Goals])
+Measures (Opponent Mode)
+    - Sum({<[Regular/Post Season]={'Regular season'}>} [Opponent Goals]) + Sum({<[Regular/Post Season]={'Post-season'}>} [Opponent Goals])
+
+EXPRESSIONS (only needed for player mode)
+    - Sum(Goals) + Sum([Post-season Goals])
+    - Sum([Even Strength Goals]) + Sum([Post-season Even Strength Goals])
+    - Sum([Power Play Goals]) + Sum([Post-season Power Play Goals])
+    - Sum([Short Handed Goals]) + Sum([Post-season Short Handed Goals])
+
+
