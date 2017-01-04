@@ -1,6 +1,6 @@
-let subjectList = {};
+let decadeList = {};
 
-subjectList.init = () => {
+decadeList.init = () => {
   return app.createSessionObject({
     qInfo: {
       qType: 'visualization',
@@ -8,7 +8,7 @@ subjectList.init = () => {
     qListObjectDef: {
       qStateName: "PlayerState",
       qDef: {
-        qFieldDefs: ['[Player Name]']
+        qFieldDefs: ['[Player Season Decade]']
       },
       qShowAlternatives: true,
       qInitialDataFetch: [{
@@ -17,7 +17,7 @@ subjectList.init = () => {
       }]
     }
   }).then((object) => {
-    subjectList.object = object;
+    decadeList.object = object;
     const update = () => object.getLayout().then((layout) => {
       //todo
     });
@@ -26,9 +26,9 @@ subjectList.init = () => {
   });
 }
 
-subjectList.changeState = (state) => {
+decadeList.changeState = (state) => {
   if(state === "PlayerState") {
-    return subjectList.object.applyPatches([
+    return decadeList.object.applyPatches([
       {
           qOp: "replace",
           qPath: "/qListObjectDef/qStateName",
@@ -37,11 +37,11 @@ subjectList.changeState = (state) => {
       {
           qOp: "replace",
           qPath: "/qListObjectDef/qDef/qFieldDefs/0",
-          qValue: JSON.stringify("[Player Name]")
+          qValue: JSON.stringify("[Player Season Decade]")
       }
     ]);
   } else if (state === "OpponentState") {
-    return subjectList.object.applyPatches([
+    return decadeList.object.applyPatches([
       {
           qOp: "replace",
           qPath: "/qListObjectDef/qStateName",
@@ -50,10 +50,10 @@ subjectList.changeState = (state) => {
       {
           qOp: "replace",
           qPath: "/qListObjectDef/qDef/qFieldDefs/0",
-          qValue: JSON.stringify("[Opponent]")
+          qValue: JSON.stringify("[Opponent Season Decade]")
       }
     ]);
   }
 }
 
-export default subjectList;
+export default decadeList;
