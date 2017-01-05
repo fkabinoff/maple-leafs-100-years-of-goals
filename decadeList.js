@@ -3,12 +3,12 @@ let decadeList = {};
 decadeList.init = () => {
   return app.createSessionObject({
     qInfo: {
-      qType: 'visualization',
+      qType: "visualization",
     },
     qListObjectDef: {
       qStateName: "PlayerState",
       qDef: {
-        qFieldDefs: ['[Player Season Decade]']
+        qFieldDefs: ["[Player Season Decade]"]
       },
       qShowAlternatives: true,
       qInitialDataFetch: [{

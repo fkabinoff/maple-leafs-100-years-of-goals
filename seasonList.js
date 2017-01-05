@@ -3,12 +3,12 @@ let seasonList = {};
 seasonList.init = () => {
   return app.createSessionObject({
     qInfo: {
-      qType: 'visualization',
+      qType: "visualization",
     },
     qListObjectDef: {
       qStateName: "PlayerState",
       qDef: {
-        qFieldDefs: ['[Season]']
+        qFieldDefs: ["[Season]"]
       },
       qShowAlternatives: true,
       qInitialDataFetch: [{

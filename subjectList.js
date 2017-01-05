@@ -3,12 +3,12 @@ let subjectList = {};
 subjectList.init = () => {
   return app.createSessionObject({
     qInfo: {
-      qType: 'visualization',
+      qType: "visualization",
     },
     qListObjectDef: {
       qStateName: "PlayerState",
       qDef: {
-        qFieldDefs: ['[Player Name]']
+        qFieldDefs: ["[Player Name]"]
       },
       qShowAlternatives: true,
       qInitialDataFetch: [{
