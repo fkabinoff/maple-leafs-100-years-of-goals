@@ -1,21 +1,25 @@
+import qlikapp from "./qlikapp";
+
 let seasonList = {};
 
 seasonList.init = () => {
-  return app.createSessionObject({
-    qInfo: {
-      qType: "visualization",
-    },
-    qListObjectDef: {
-      qStateName: "PlayerState",
-      qDef: {
-        qFieldDefs: ["[Season]"]
+  return qlikapp.then((app) => {
+    return app.createSessionObject({
+      qInfo: {
+        qType: "visualization",
       },
-      qShowAlternatives: true,
-      qInitialDataFetch: [{
-        qWidth: 1,
-        qHeight: 1000
-      }]
-    }
+      qListObjectDef: {
+        qStateName: "PlayerState",
+        qDef: {
+          qFieldDefs: ["[Season]"]
+        },
+        qShowAlternatives: true,
+        qInitialDataFetch: [{
+          qWidth: 1,
+          qHeight: 1000
+        }]
+      }
+    });
   }).then((object) => {
     seasonList.object = object;
     const update = () => object.getLayout().then((layout) => {

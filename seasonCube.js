@@ -1,58 +1,62 @@
+import qlikapp from "./qlikapp";
+
 let seasonCube = {};
 
 seasonCube.init = () => {
-  return app.createSessionObject({
-    qInfo: {
-      qType: "visualization",
-    },
-    qHyperCubeDef: {
-      qStateName: "PlayerState",
-      qDimensions: [{
-        qDef: {
-          qFieldDefs: ["[Season]"]
-        },
-        qSortCriterias: [{
-          qSortByNumeric: 1
+  return qlikapp.then((app) => {
+    return app.createSessionObject({
+      qInfo: {
+        qType: "visualization",
+      },
+      qHyperCubeDef: {
+        qStateName: "PlayerState",
+        qDimensions: [{
+          qDef: {
+            qFieldDefs: ["[Season]"]
+          },
+          qSortCriterias: [{
+            qSortByNumeric: 1
+          }]
+        }],
+        qMeasures: [{
+          qDef: {
+            qDef: "Sum(Goals)"
+          }
+        }, {
+          qDef: {
+            qDef: "Sum([Post-season Goals])"
+          }
+        }, {
+          qDef: {
+            qDef: "Sum([Even Strength Goals])"
+          }
+        }, {
+          qDef: {
+            qDef: "Sum([Post-season Even Strength Goals])"
+          }
+        }, {
+          qDef: {
+            qDef: "Sum([Power Play Goals])"
+          }
+        }, {
+          qDef: {
+            qDef: "Sum([Post-season Power Play Goals])"
+          }
+        }, {
+          qDef: {
+            qDef: "Sum([Short Handed Goals])"
+          }
+        }, {
+          qDef: {
+            qDef: "sum([Post-season Short Handed Goals])"
+          }
+        }],
+        qInitialDataFetch: [{
+          qWidth: 10,
+          qHeight: 1000
         }]
-      }],
-      qMeasures: [{
-        qDef: {
-          qDef: "Sum(Goals)"
-        }
-      }, {
-        qDef: {
-          qDef: "Sum([Post-season Goals])"
-        }
-      }, {
-        qDef: {
-          qDef: "Sum([Even Strength Goals])"
-        }
-      }, {
-        qDef: {
-          qDef: "Sum([Post-season Even Strength Goals])"
-        }
-      }, {
-        qDef: {
-          qDef: "Sum([Power Play Goals])"
-        }
-      }, {
-        qDef: {
-          qDef: "Sum([Post-season Power Play Goals])"
-        }
-      }, {
-        qDef: {
-          qDef: "Sum([Short Handed Goals])"
-        }
-      }, {
-        qDef: {
-          qDef: "sum([Post-season Short Handed Goals])"
-        }
-      }],
-      qInitialDataFetch: [{
-        qWidth: 10,
-        qHeight: 1000
-      }]
-    }
+      }
+    });
   }).then((object) => {
     seasonCube.object = object;
     const update = () => object.getLayout().then((layout) => {

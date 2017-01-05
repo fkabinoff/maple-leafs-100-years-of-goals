@@ -1,32 +1,36 @@
+import qlikapp from "./qlikapp";
+
 let subjectCube = {};
 let playerMeasure = "Sum(Goals) + Sum([Post-season Goals])";
 let opponentMeasure = "Sum({<[Regular/Post Season]={'Regular season'}>} [Opponent Goals]) + Sum({<[Regular/Post Season]={'Post-season'}>} [Opponent Goals])";
 
 subjectCube.init = () => {
-  return app.createSessionObject({
-    qInfo: {
-      qType: "visualization",
-    },
-    qHyperCubeDef: {
-      qStateName: "PlayerState",
-      qDimensions: [{
-        qDef: {
-          qFieldDefs: ["[Player Name]"]
-        },
-        qSortCriterias: [{
-          qSortByAscii: -1
+  return qlikapp.then((app) => {
+    return app.createSessionObject({
+      qInfo: {
+        qType: "visualization",
+      },
+      qHyperCubeDef: {
+        qStateName: "PlayerState",
+        qDimensions: [{
+          qDef: {
+            qFieldDefs: ["[Player Name]"]
+          },
+          qSortCriterias: [{
+            qSortByAscii: -1
+          }]
+        }],
+        qMeasures: [{
+          qDef: {
+            qDef: "Sum(Goals) + Sum([Post-season Goals])"
+          }
+        }],
+        qInitialDataFetch: [{
+          qWidth: 2,
+          qHeight: 1000
         }]
-      }],
-      qMeasures: [{
-        qDef: {
-          qDef: "Sum(Goals) + Sum([Post-season Goals])"
-        }
-      }],
-      qInitialDataFetch: [{
-        qWidth: 2,
-        qHeight: 1000
-      }]
-    }
+      }
+    });
   }).then((object) => {
     subjectCube.object = object;
     const update = () => object.getLayout().then((layout) => {

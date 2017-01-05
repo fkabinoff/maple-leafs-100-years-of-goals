@@ -1,21 +1,25 @@
+import qlikapp from "./qlikapp";
+
 let decadeList = {};
 
 decadeList.init = () => {
-  return app.createSessionObject({
-    qInfo: {
-      qType: "visualization",
-    },
-    qListObjectDef: {
-      qStateName: "PlayerState",
-      qDef: {
-        qFieldDefs: ["[Player Season Decade]"]
+  return qlikapp.then((app) => {
+    return app.createSessionObject({
+      qInfo: {
+        qType: "visualization",
       },
-      qShowAlternatives: true,
-      qInitialDataFetch: [{
-        qWidth: 1,
-        qHeight: 1000
-      }]
-    }
+      qListObjectDef: {
+        qStateName: "PlayerState",
+        qDef: {
+          qFieldDefs: ["[Player Season Decade]"]
+        },
+        qShowAlternatives: true,
+        qInitialDataFetch: [{
+          qWidth: 1,
+          qHeight: 1000
+        }]
+      }
+    });
   }).then((object) => {
     decadeList.object = object;
     const update = () => object.getLayout().then((layout) => {

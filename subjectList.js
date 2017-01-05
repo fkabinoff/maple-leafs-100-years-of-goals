@@ -1,21 +1,25 @@
+import qlikapp from "./qlikapp";
+
 let subjectList = {};
 
 subjectList.init = () => {
-  return app.createSessionObject({
-    qInfo: {
-      qType: "visualization",
-    },
-    qListObjectDef: {
-      qStateName: "PlayerState",
-      qDef: {
-        qFieldDefs: ["[Player Name]"]
+  return qlikapp.then((app) => {
+    return app.createSessionObject({
+      qInfo: {
+        qType: "visualization",
       },
-      qShowAlternatives: true,
-      qInitialDataFetch: [{
-        qWidth: 1,
-        qHeight: 1000
-      }]
-    }
+      qListObjectDef: {
+        qStateName: "PlayerState",
+        qDef: {
+          qFieldDefs: ["[Player Name]"]
+        },
+        qShowAlternatives: true,
+        qInitialDataFetch: [{
+          qWidth: 1,
+          qHeight: 1000
+        }]
+      }
+    });
   }).then((object) => {
     subjectList.object = object;
     const update = () => object.getLayout().then((layout) => {

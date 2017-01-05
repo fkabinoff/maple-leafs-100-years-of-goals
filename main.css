@@ -1,0 +1,39 @@
+/* radio buttons and checkboxes */
+input[type="radio"],
+input[type="checkbox"]{
+  display: none;
+}
+.input-container {
+  display: inline-block;
+  padding-left: 30px;
+  margin-right: 8px; 
+}
+.input-container label {
+  position: relative;
+}
+.input-container span::before,
+.input-container span::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+.input-container span.radio::before {
+  left: -2em;
+  width: 1em;
+  height: 1em;
+  background-color: #A8AAC1;
+  border-radius: 1em;
+}
+.input-container span.radio::after {
+  left: -1.95em;
+  width: 0.9em;
+  height: 0.9em;
+  border-radius: 0.9em;
+  background-color: #A8AAC1;
+  transition: background-color .25s;
+}
+input[type="radio"]:checked + label span.radio::after {
+  background-color: #6C788A;
+}
