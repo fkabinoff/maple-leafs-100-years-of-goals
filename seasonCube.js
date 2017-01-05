@@ -72,9 +72,9 @@ seasonCube.changeState = (state) => {
         qValue: JSON.stringify("PlayerState")
       },
       {
-          qOp: "replace",
-          qPath: "/qHyperCubeDef/qMeasures",
-          qValue: JSON.stringify([{qDef:{qDef:"Sum(Goals)"}},{qDef:{qDef:"Sum([Post-season Goals])"}},{qDef:{qDef:"Sum([Even Strength Goals])"}},{qDef:{qDef:"Sum([Post-season Even Strength Goals])"}},{qDef:{qDef: "Sum([Power Play Goals])"}},{qDef:{qDef: "Sum([Post-season Power Play Goals])"}},{qDef:{qDef: "Sum([Short Handed Goals])"}},{qDef:{qDef:"sum([Post-season Short Handed Goals])"}}])
+        qOp: "replace",
+        qPath: "/qHyperCubeDef/qMeasures",
+        qValue: JSON.stringify([{qDef:{qDef:"Sum(Goals)"}},{qDef:{qDef:"Sum([Post-season Goals])"}},{qDef:{qDef:"Sum([Even Strength Goals])"}},{qDef:{qDef:"Sum([Post-season Even Strength Goals])"}},{qDef:{qDef: "Sum([Power Play Goals])"}},{qDef:{qDef: "Sum([Post-season Power Play Goals])"}},{qDef:{qDef: "Sum([Short Handed Goals])"}},{qDef:{qDef:"sum([Post-season Short Handed Goals])"}}])
       }
     ]);
   } else if (state === "OpponentState") {
@@ -85,9 +85,9 @@ seasonCube.changeState = (state) => {
         qValue: JSON.stringify("OpponentState")
       },
       {
-          qOp: "replace",
-          qPath: "/qHyperCubeDef/qMeasures",
-          qValue: JSON.stringify([{qDef:{qDef:"Sum({<[Regular/Post Season]={'Regular season'}>} [Opponent Goals])"}},{qDef:{qDef:"Sum({<[Regular/Post Season]={'Post-season'}>} [Opponent Goals])"}}])
+        qOp: "replace",
+        qPath: "/qHyperCubeDef/qMeasures",
+        qValue: JSON.stringify([{qDef:{qDef:"Sum({<[Regular/Post Season]={'Regular season'}>} [Opponent Goals])"}},{qDef:{qDef:"Sum({<[Regular/Post Season]={'Post-season'}>} [Opponent Goals])"}}])
       }
     ]);
   }
