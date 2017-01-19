@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "dependencies": {
+    "d3": "^4.4.2",
     "enigma.js": "^1.0.1"
   },
   "devDependencies": {
