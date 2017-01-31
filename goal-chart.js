@@ -11,6 +11,8 @@ class GoalChart {
             .attr("width", "100%")
         this.svg.g = this.svg.append("g")
             .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+        this.svg.xAxis = this.svg.g.append("g").attr("class", "x axis").attr("transform", `translate(0, ${this.height})`);
+        this.svg.yAxis = this.svg.g.append("g").attr("class", "y axis");
         this.svg.defs = this.svg.append("defs");
         this.svg.defs.append("pattern")
             .attr("id", "goal")
@@ -58,9 +60,13 @@ class GoalChart {
         let x = d3.scaleBand().range([0, this.width]).padding(0.2),
             y = d3.scaleLinear().range([this.height, 0]),
             z = d3.scaleOrdinal().range(["#013878", "#013878", "#769fce", "#3fb34f", "#f69331", "#769fce", "#3fb34f", "#f69331"]);
+
         x.domain(matrix.map(function(d){ return d[0].qText; }));
         y.domain([0, Math.max(...matrix.map((year) => { return year[1].qNum + year[2].qNum }))]);
         z.domain([1, 2, 3, 4, 5, 6, 7, 8]);
+
+        this.svg.xAxis.call(d3.axisBottom(x).tickValues( x.domain().filter((d,i) => { return !(i%10) }) ));
+        this.svg.yAxis.call(d3.axisLeft(y));
 
         let data = matrix.map((year) => {
              if( year[3].qNum + year[4].qNum + year[5].qNum + year[6].qNum + year[7].qNum + year[8].qNum != 0 ) {
@@ -83,9 +89,10 @@ class GoalChart {
         let stack = d3.stack().keys([1, 2, 3, 4, 5, 6, 7, 8]).value(function(d, key){ return d[key].qNum });
         let series = stack(data);
 
-        this.svg.g.selectAll("g")
+        this.svg.g.selectAll(".bar")
             .data(series)
         .enter().append("g")
+            .attr("class", "bar")
             .attr("fill", (d) => { return z(d.key); })
             .attr("stroke", (d) => { return z(d.key); })
             .attr("mask", (d) => { if(d.key < 6 && d.key != 2) { return null; } else { return "url(#mask-stripe)"; } })
