@@ -37,17 +37,32 @@ class GoalChart {
     draw(layout) {
         let matrix = layout.qHyperCube.qDataPages[0].qMatrix;
 
-        //todo: some logic here to decide what to use
-        let data = matrix.map((year) => { return [year[0], year[1], year[2]] });
-
         let x = d3.scaleBand().rangeRound([0, this.width]).padding(0.1),
             y = d3.scaleLinear().rangeRound([this.height, 0]),
-            z = d3.scaleOrdinal().range(["#0000ff", "#0000ff"]);
-        x.domain(data.map(function(d){ return d[0].qText; }));
-        y.domain([0, Math.max(...data.map((year) => { return year[1].qNum + year[2].qNum }))]);
-        z.domain([1, data[0].length]);
+            z = d3.scaleOrdinal().range(["#0000ff", "#0000ff", "#0000ff", "#0000ff", "#0000ff", "#0000ff", "#0000ff", "#0000ff"]);
+        x.domain(matrix.map(function(d){ return d[0].qText; }));
+        y.domain([0, Math.max(...matrix.map((year) => { return year[1].qNum + year[2].qNum }))]);
+        z.domain([1, matrix[0].length]);
 
-        let stack = d3.stack().keys([1, 2]).value(function(d, key){ return d[key].qNum });
+        let data = matrix.map((year) => {
+             if( year[3].qNum + year[4].qNum + year[5].qNum + year[6].qNum + year[7].qNum + year[8].qNum != 0 ) {
+                 year[1] = {
+                     qElemNumber: year[1].qElemNumber,
+                     qNum: 0,
+                     qState: year[1].qState,
+                     qtext: "0"
+                 };
+                 year[2] = {
+                     qElemNumber: year[2].qElemNumber,
+                     qNum: 0,
+                     qState: year[2].qState,
+                     qtext: "0"
+                 };
+             }
+             return year; 
+        });
+
+        let stack = d3.stack().keys([1, 2, 3, 4, 5, 6, 7, 8]).value(function(d, key){ return d[key].qNum });
         let series = stack(data);
 
         this.svg.g.selectAll("g")
