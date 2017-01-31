@@ -15,7 +15,10 @@ seasonCube.init = () => {
         qStateName: "PlayerState",
         qDimensions: [{
           qDef: {
-            qFieldDefs: ["[Season]"]
+            qFieldDefs: ["[Season]"],
+            qSortCriterias: [{
+              qSortByAscii: 1
+            }]
           },
           qSortCriterias: [{
             qSortByNumeric: 1
@@ -54,6 +57,7 @@ seasonCube.init = () => {
             qDef: "sum([Post-season Short Handed Goals])"
           }
         }],
+        qSuppressMissing: true,
         qInitialDataFetch: [{
           qWidth: 10,
           qHeight: 1000
