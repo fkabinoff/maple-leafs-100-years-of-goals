@@ -38,19 +38,19 @@ seasonCube.init = () => {
           }
         }, {
           qDef: {
-            qDef: "Sum([Post-season Even Strength Goals])"
-          }
-        }, {
-          qDef: {
             qDef: "Sum([Power Play Goals])"
           }
         }, {
           qDef: {
-            qDef: "Sum([Post-season Power Play Goals])"
+            qDef: "Sum([Short Handed Goals])"
           }
         }, {
           qDef: {
-            qDef: "Sum([Short Handed Goals])"
+            qDef: "Sum([Post-season Even Strength Goals])"
+          }
+        }, {
+          qDef: {
+            qDef: "Sum([Post-season Power Play Goals])"
           }
         }, {
           qDef: {
