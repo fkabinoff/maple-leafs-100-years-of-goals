@@ -1,7 +1,9 @@
 import qlikapp from "./qlikapp";
-import * as d3 from "d3";
+import GoalChart from "./goal-chart";
 
 let seasonCube = {};
+
+seasonCube.element = "#season-chart";
 
 seasonCube.init = () => {
   return qlikapp.then((app) => {
@@ -60,23 +62,9 @@ seasonCube.init = () => {
     });
   }).then((object) => {
     seasonCube.object = object;
-
-    let margin = {top: 0, right: 0, bottom: 30, left: 40},
-        width = 500 - margin.left - margin.right,
-        height = 100 - margin.top - margin.bottom,
-        svg = d3.select("#season-chart").append("svg")
-          .attr("viewbox", "0 0 500 1000")
-          .attr("preserveAspectRatio", "xMinYMin meet")
-          .attr("width", "100%")
-          .attr("height", "100%")
-        .append("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
+    seasonCube.chart = new GoalChart("#season-chart");
     const update = () => object.getLayout().then((layout) => {
-      let x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-          y = d3.scaleLinear().rangeRound([height, 0]);
-      x.domain(layout.qHyperCube.qDataPages[0].qMatrix.length);
-      y.domain([0, Math.max(...layout.qHyperCube.qDataPages[0].qMatrix.map((year) => { return year[1].qNum + year[2].qNum }))]);
+      seasonCube.chart.draw(layout);
     });
     object.on('changed', update);
     update();
