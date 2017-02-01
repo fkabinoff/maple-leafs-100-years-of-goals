@@ -26,35 +26,43 @@ seasonCube.init = () => {
         }],
         qMeasures: [{
           qDef: {
-            qDef: "Sum(Goals)"
+            qDef: "Sum(Goals)",
+            qLabel: "Goals"
           }
         }, {
           qDef: {
-            qDef: "Sum([Post-season Goals])"
+            qDef: "Sum([Post-season Goals])",
+            qLabel: "Post Season Goals"
           }
         }, {
           qDef: {
-            qDef: "Sum([Even Strength Goals])"
+            qDef: "Sum([Even Strength Goals])",
+            qLabel: "Even Strength Goals"
           }
         }, {
           qDef: {
-            qDef: "Sum([Power Play Goals])"
+            qDef: "Sum([Power Play Goals])",
+            qLabel: "Power Play Goals"
           }
         }, {
           qDef: {
-            qDef: "Sum([Short Handed Goals])"
+            qDef: "Sum([Short Handed Goals])",
+            qLabel: "Short Handed Goals"
           }
         }, {
           qDef: {
-            qDef: "Sum([Post-season Even Strength Goals])"
+            qDef: "Sum([Post-season Even Strength Goals])",
+            qLabel: "Post Season Even Strength Goals"
           }
         }, {
           qDef: {
-            qDef: "Sum([Post-season Power Play Goals])"
+            qDef: "Sum([Post-season Power Play Goals])",
+            qLabel: "Post Season Power Play Goals"
           }
         }, {
           qDef: {
-            qDef: "sum([Post-season Short Handed Goals])"
+            qDef: "sum([Post-season Short Handed Goals])",
+            qLabel: "Post Season Short Handed Goals"
           }
         }],
         qSuppressMissing: true,

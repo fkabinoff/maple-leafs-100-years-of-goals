@@ -6,6 +6,9 @@ class GoalChart {
         this.margin = {top: 0, right: 0, bottom: 30, left: 40};
         this.width = 1040 - this.margin.left - this.margin.right;
         this.height = 530 - this.margin.top - this.margin.bottom;
+        this.tooltip = d3.select(this.cube.element).append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
         this.svg = d3.select(this.cube.element).append("svg")
             .attr("viewBox", "0 0 1040 530")
             .attr("preserveAspectRatio", "xMinYMin meet")
@@ -57,7 +60,7 @@ class GoalChart {
 
     draw(layout) {
         let matrix = layout.qHyperCube.qDataPages[0].qMatrix;
-
+        let labels = layout.qHyperCube.qMeasureInfo.map((measure) => { return measure.qFallbackTitle });
         let x = d3.scaleBand().range([0, this.width]).padding(0.2),
             y = d3.scaleLinear().range([this.height, 0]),
             z = d3.scaleOrdinal().range(["#013878", "#013878", "#769fce", "#3fb34f", "#f69331", "#769fce", "#3fb34f", "#f69331"]);
@@ -94,6 +97,9 @@ class GoalChart {
             .data(series)
         .enter().append("g")
             .attr("class", "layer")
+            .attr("category", (d, i, j) => { 
+                return labels[i];
+            })
             .attr("fill", (d) => { return z(d.key); })
             .attr("stroke", (d) => { return z(d.key); })
             .attr("mask", (d) => { if(d.key < 6 && d.key != 2) { return null; } else { return "url(#mask-stripe)"; } })
@@ -114,6 +120,24 @@ class GoalChart {
             //         toggleMode: true
             //     });
             // })
+            .on("mouseover", (d, i, j) => {
+                let category = d3.select(j[i].parentNode).attr("category");
+                let html = `<div>${d.data[0].qText} ${category}</div><div>${d[1]-d[0]}</div>`;
+                this.tooltip.html(html)
+                    .style("left", `${d3.event.pageX}px`)
+                    .style("top", `${d3.event.pageY - 60}px`)
+                this.tooltip.transition()
+                    .style("opacity", 1);
+            })
+            .on("mousemove", (d) => {
+                this.tooltip
+                    .style("left", `${d3.event.pageX}px`)
+                    .style("top", `${d3.event.pageY - 60}px`);
+            })
+            .on("mouseout", (d) => {
+                this.tooltip.transition()
+                    .style("opacity", 0);
+            })
             .attr("x", (d) => { return x(d.data[0].qText); })
             .attr("y", this.height)
             .attr("width", x.bandwidth())
