@@ -122,16 +122,16 @@ class GoalChart {
             // })
             .on("mouseover", (d, i, j) => {
                 let category = d3.select(j[i].parentNode).attr("category");
-                let html = `<div>${d.data[0].qText} ${category}</div><div>${d[1]-d[0]}</div>`;
+                let html = `<div>${d.data[0].qText}</div><div>${category}</div><div>${d[1]-d[0]}</div>`;
                 this.tooltip.html(html)
-                    .style("left", `${d3.event.pageX}px`)
+                    .style("left", `${Math.min(d3.event.pageX, window.innerWidth-200)}px`)
                     .style("top", `${d3.event.pageY - 60}px`)
                 this.tooltip.transition()
                     .style("opacity", 1);
             })
             .on("mousemove", (d) => {
                 this.tooltip
-                    .style("left", `${d3.event.pageX}px`)
+                    .style("left", `${Math.min(d3.event.pageX, window.innerWidth-200)}px`)
                     .style("top", `${d3.event.pageY - 60}px`);
             })
             .on("mouseout", (d) => {

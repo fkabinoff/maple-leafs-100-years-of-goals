@@ -27,7 +27,7 @@ seasonCube.init = () => {
         qMeasures: [{
           qDef: {
             qDef: "Sum(Goals)",
-            qLabel: "Goals"
+            qLabel: "Regular Season Goals"
           }
         }, {
           qDef: {
@@ -37,17 +37,17 @@ seasonCube.init = () => {
         }, {
           qDef: {
             qDef: "Sum([Even Strength Goals])",
-            qLabel: "Even Strength Goals"
+            qLabel: "Regular Season Even Strength Goals"
           }
         }, {
           qDef: {
             qDef: "Sum([Power Play Goals])",
-            qLabel: "Power Play Goals"
+            qLabel: "Regular Season Power Play Goals"
           }
         }, {
           qDef: {
             qDef: "Sum([Short Handed Goals])",
-            qLabel: "Short Handed Goals"
+            qLabel: "Regular Season Short Handed Goals"
           }
         }, {
           qDef: {

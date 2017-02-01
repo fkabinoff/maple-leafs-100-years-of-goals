@@ -42,10 +42,11 @@ input[type="radio"]:checked + label span.radio::after {
 div.tooltip {
   position: absolute;
   padding: 8px;
-  width: 160px;
+  width: 200px;
   height: auto;
   background: #ccc;
   border-radius: 8px;
   pointer-events: none;
   font-size: 11px;
+  text-align: center;
 }
