@@ -19,25 +19,6 @@ class GoalChart {
         this.svg.yAxis = this.svg.g.append("g").attr("class", "y axis");
         this.svg.defs = this.svg.append("defs");
         this.svg.defs.append("pattern")
-            .attr("id", "goal")
-            .attr("width", 9)
-            .attr("height", 4)
-            .attr("patternUnits", "userSpaceOnUse")
-        .append("rect")
-            .attr("width", 8)
-            .attr("height", 2)
-            .attr("fill", "blue");
-        this.svg.defs.append("pattern")
-            .attr("id", "playoff-goal")
-            .attr("width", 9)
-            .attr("height", 4)
-            .attr("patternUnits", "userSpaceOnUse")
-        .append("rect")
-            .attr("width", 8)
-            .attr("height", 2)
-            .attr("stroke", "blue")
-            .attr("fill", "white");
-        this.svg.defs.append("pattern")
             .attr("id", "pattern-stripe")
             .attr("width", 4)
             .attr("height", 4)
@@ -61,6 +42,7 @@ class GoalChart {
     draw(layout) {
         let matrix = layout.qHyperCube.qDataPages[0].qMatrix;
         let labels = layout.qHyperCube.qMeasureInfo.map((measure) => { return measure.qFallbackTitle });
+
         let x = d3.scaleBand().range([0, this.width]).padding(0.2),
             y = d3.scaleLinear().range([this.height, 0]),
             z = d3.scaleOrdinal().range(["#013878", "#013878", "#769fce", "#3fb34f", "#f69331", "#769fce", "#3fb34f", "#f69331"]);
@@ -93,33 +75,35 @@ class GoalChart {
         let stack = d3.stack().keys([1, 2, 3, 4, 5, 6, 7, 8]).value(function(d, key){ return d[key].qNum });
         let series = stack(data);
 
-        this.items = this.svg.g.selectAll(".layer")
-            .data(series)
-        .enter().append("g")
-            .attr("class", "layer")
-            .attr("category", (d, i, j) => { 
-                return labels[i];
-            })
-            .attr("fill", (d) => { return z(d.key); })
-            .attr("stroke", (d) => { return z(d.key); })
-            .attr("mask", (d) => { if(d.key < 6 && d.key != 2) { return null; } else { return "url(#mask-stripe)"; } })
-        .selectAll("rect")
-        .data((d) => { return d; });
+        this.svg.g.selectAll(".layer")
+            .data(series)    
+            .enter().append("g")
+                .attr("class", "layer")
+                .attr("category", (d, i, j) => { 
+                    return labels[i];
+                })
+                .attr("fill", (d) => { return z(d.key); })
+                .attr("stroke", (d) => { return z(d.key); })
+                .attr("mask", (d) => { if(d.key < 6 && d.key != 2) { return null; } else { return "url(#mask-stripe)"; } });
+
+        this.layers = d3.selectAll(".layer");
+        
+        this.items = this.layers.selectAll("rect")
+            .data((d) => { return d; });
+
         this.items
             .attr("x", (d) => { return x(d.data[0].qText); })
+            .attr("y", this.height)
             .attr("width", x.bandwidth())
+            .attr("height", 0)
         .transition()
             .attr("y", (d) => { return y(d[1]); })
             .attr("height", (d) => { return y(d[0]) - y(d[1]); });
+
         this.items.enter().append("rect")
-            // .on("click", (d) => {
-            //     this.cube.object.selectHyperCubeValues({
-            //         path: "/qHyperCubeDef",
-            //         dimNo: 0,
-            //         values: [0],
-            //         toggleMode: true
-            //     });
-            // })
+            .on("click", (d) => {
+                this.cube.object.selectHyperCubeValues("/qHyperCubeDef", 0, [d.data[0].qElemNumber], true);
+            })
             .on("mouseover", (d, i, j) => {
                 let category = d3.select(j[i].parentNode).attr("category");
                 let html = `<div>${d.data[0].qText}</div><div>${category}</div><div>${d[1]-d[0]}</div>`;
@@ -145,6 +129,7 @@ class GoalChart {
         .transition()
             .attr("y", (d) => { return y(d[1]); })
             .attr("height", (d) => { return y(d[0]) - y(d[1]); });
+            
         this.items.exit().remove();
 
     }
