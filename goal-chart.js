@@ -1,11 +1,12 @@
 import * as d3 from "d3";
 
 class GoalChart {
-    constructor(element) {
+    constructor(cube) {
+        this.cube = cube;
         this.margin = {top: 0, right: 0, bottom: 30, left: 40};
         this.width = 1040 - this.margin.left - this.margin.right;
         this.height = 530 - this.margin.top - this.margin.bottom;
-        this.svg = d3.select(element).append("svg")
+        this.svg = d3.select(this.cube.element).append("svg")
             .attr("viewBox", "0 0 1040 530")
             .attr("preserveAspectRatio", "xMinYMin meet")
             .attr("width", "100%")
@@ -99,6 +100,14 @@ class GoalChart {
         .selectAll("rect")
         .data((d) => { return d; })
         .enter().append("rect")
+            // .on("click", (d) => {
+            //     this.cube.object.selectHyperCubeValues({
+            //         path: "/qHyperCubeDef",
+            //         dimNo: 0,
+            //         values: [0],
+            //         toggleMode: true
+            //     });
+            // })
             .attr("x", (d) => { return x(d.data[0].qText); })
             .attr("y", this.height)
             .attr("width", x.bandwidth())

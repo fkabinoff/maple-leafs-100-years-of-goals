@@ -66,7 +66,7 @@ seasonCube.init = () => {
     });
   }).then((object) => {
     seasonCube.object = object;
-    seasonCube.chart = new GoalChart("#season-chart");
+    seasonCube.chart = new GoalChart(seasonCube);
     const update = () => object.getLayout().then((layout) => {
       seasonCube.chart.draw(layout);
     });
