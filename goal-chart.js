@@ -43,7 +43,7 @@ class GoalChart {
         let matrix = layout.qHyperCube.qDataPages[0].qMatrix;
         let labels = layout.qHyperCube.qMeasureInfo.map((measure) => { return measure.qFallbackTitle });
 
-        let x = d3.scaleBand().range([0, this.width]).padding(0.2),
+        let x = d3.scaleBand().range([0, Math.min(this.width, matrix.length*50)]).padding(0.2),
             y = d3.scaleLinear().range([this.height, 0]),
             z = d3.scaleOrdinal().range(["#013878", "#013878", "#769fce", "#3fb34f", "#f69331", "#769fce", "#3fb34f", "#f69331"]);
 
