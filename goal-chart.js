@@ -90,16 +90,22 @@ class GoalChart {
         let stack = d3.stack().keys([1, 2, 3, 4, 5, 6, 7, 8]).value(function(d, key){ return d[key].qNum });
         let series = stack(data);
 
-        this.svg.g.selectAll(".bar")
+        this.items = this.svg.g.selectAll(".layer")
             .data(series)
         .enter().append("g")
-            .attr("class", "bar")
+            .attr("class", "layer")
             .attr("fill", (d) => { return z(d.key); })
             .attr("stroke", (d) => { return z(d.key); })
             .attr("mask", (d) => { if(d.key < 6 && d.key != 2) { return null; } else { return "url(#mask-stripe)"; } })
         .selectAll("rect")
-        .data((d) => { return d; })
-        .enter().append("rect")
+        .data((d) => { return d; });
+        this.items
+            .attr("x", (d) => { return x(d.data[0].qText); })
+            .attr("width", x.bandwidth())
+        .transition()
+            .attr("y", (d) => { return y(d[1]); })
+            .attr("height", (d) => { return y(d[0]) - y(d[1]); });
+        this.items.enter().append("rect")
             // .on("click", (d) => {
             //     this.cube.object.selectHyperCubeValues({
             //         path: "/qHyperCubeDef",
@@ -115,6 +121,7 @@ class GoalChart {
         .transition()
             .attr("y", (d) => { return y(d[1]); })
             .attr("height", (d) => { return y(d[0]) - y(d[1]); });
+        this.items.exit().remove();
 
     }
 }
