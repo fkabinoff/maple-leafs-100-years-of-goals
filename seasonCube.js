@@ -26,42 +26,42 @@ seasonCube.init = () => {
         }],
         qMeasures: [{
           qDef: {
-            qDef: "Sum(Goals)",
+            qDef: "Sum(Goals) * vTotal",
             qLabel: "Regular Season Goals"
           }
         }, {
           qDef: {
-            qDef: "Sum([Post-season Goals])",
+            qDef: "Sum([Post-season Goals]) * vTotal",
             qLabel: "Post Season Goals"
           }
         }, {
           qDef: {
-            qDef: "Sum([Even Strength Goals])",
+            qDef: "Sum([Even Strength Goals]) * vEV",
             qLabel: "Regular Season Even Strength Goals"
           }
         }, {
           qDef: {
-            qDef: "Sum([Power Play Goals])",
+            qDef: "Sum([Power Play Goals]) * vPP",
             qLabel: "Regular Season Power Play Goals"
           }
         }, {
           qDef: {
-            qDef: "Sum([Short Handed Goals])",
+            qDef: "Sum([Short Handed Goals]) * vSH",
             qLabel: "Regular Season Short Handed Goals"
           }
         }, {
           qDef: {
-            qDef: "Sum([Post-season Even Strength Goals])",
+            qDef: "Sum([Post-season Even Strength Goals]) * vEV",
             qLabel: "Post Season Even Strength Goals"
           }
         }, {
           qDef: {
-            qDef: "Sum([Post-season Power Play Goals])",
+            qDef: "Sum([Post-season Power Play Goals]) * vPP",
             qLabel: "Post Season Power Play Goals"
           }
         }, {
           qDef: {
-            qDef: "sum([Post-season Short Handed Goals])",
+            qDef: "sum([Post-season Short Handed Goals]) * vSH",
             qLabel: "Post Season Short Handed Goals"
           }
         }],
@@ -94,7 +94,7 @@ seasonCube.changeState = (state) => {
       {
         qOp: "replace",
         qPath: "/qHyperCubeDef/qMeasures",
-        qValue: JSON.stringify([{qDef:{qDef:"Sum(Goals)"}},{qDef:{qDef:"Sum([Post-season Goals])"}},{qDef:{qDef:"Sum([Even Strength Goals])"}},{qDef:{qDef:"Sum([Post-season Even Strength Goals])"}},{qDef:{qDef: "Sum([Power Play Goals])"}},{qDef:{qDef: "Sum([Post-season Power Play Goals])"}},{qDef:{qDef: "Sum([Short Handed Goals])"}},{qDef:{qDef:"sum([Post-season Short Handed Goals])"}}])
+        qValue: JSON.stringify([{qDef:{qDef:"Sum(Goals)*vTotal",qLabel:"Regular Season Goals"}},{qDef:{qDef: "Sum([Post-season Goals])*vTotal",qLabel:"Post Season Goals"}},{qDef:{qDef: "Sum([Even Strength Goals])*vEV",qLabel:"Regular Season Even Strength Goals"}},{qDef:{qDef:"Sum([Power Play Goals])*vPP",qLabel:"Regular Season Power Play Goals"}},{qDef:{qDef:"Sum([Short Handed Goals])*vSH",qLabel:"Regular Season Short Handed Goals"}},{qDef:{qDef:"Sum([Post-season Even Strength Goals])*vEV",qLabel:"Post Season Even Strength Goals"}},{qDef:{qDef:"Sum([Post-season Power Play Goals])*vPP",qLabel:"Post Season Power Play Goals"}},{qDef:{qDef:"sum([Post-season Short Handed Goals])*vSH",qLabel:"Post Season Short Handed Goals"}}])
       }
     ]);
   } else if (state === "OpponentState") {
@@ -107,7 +107,7 @@ seasonCube.changeState = (state) => {
       {
         qOp: "replace",
         qPath: "/qHyperCubeDef/qMeasures",
-        qValue: JSON.stringify([{qDef:{qDef:"Sum({<[Regular/Post Season]={'Regular season'}>} [Opponent Goals])"}},{qDef:{qDef:"Sum({<[Regular/Post Season]={'Post-season'}>} [Opponent Goals])"}}])
+        qValue: JSON.stringify([{qDef:{qDef:"Sum({<[Regular/Post Season]={'Regular season'}>} [Opponent Goals])",qLabel:"Regular Season Goals"}},{qDef:{qDef:"Sum({<[Regular/Post Season]={'Post-season'}>} [Opponent Goals])",qLabel:"Post Season Goals"}}])
       }
     ]);
   }
