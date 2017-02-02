@@ -75,3 +75,7 @@ div.tooltip {
   font-size: 11px;
   text-align: center;
 }
+
+#season-chart {
+  position: relative;
+}

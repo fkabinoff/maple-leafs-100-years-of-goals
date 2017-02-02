@@ -6,6 +6,19 @@ class GoalChart {
         this.margin = {top: 0, right: 0, bottom: 30, left: 40};
         this.width = 1040 - this.margin.left - this.margin.right;
         this.height = 530 - this.margin.top - this.margin.bottom;
+        this.errorMsg = d3.select(this.cube.element).append("div")
+            .style("visibility", "hidden")
+            .style("width", "100%")
+            .style("height", "100%")
+            .style("background", "white")
+            .style("position", "absolute")
+            .style("top", "0")
+            .style("left", "0")
+            .style("display", "flex")
+            .style("justify-content", "center")
+            .style("align-items", "center")
+            .style("z-index", "2")
+            .html("No data");
         this.tooltip = d3.select(this.cube.element).append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
@@ -41,8 +54,15 @@ class GoalChart {
 
     draw(layout) {
         let matrix = layout.qHyperCube.qDataPages[0].qMatrix;
+
+        if (!matrix.length) {
+            this.errorMsg.style("visibility", "visible");
+            return;
+        } else {
+            this.errorMsg.style("visibility", "hidden");
+        }
+
         let labels = layout.qHyperCube.qMeasureInfo.map((measure) => { return measure.qFallbackTitle });
-        
         let maxGoals = matrix[0][3] ? Math.max(Math.max(...matrix.map((year) => { return year[1].qNum + year[2].qNum })), Math.max(...matrix.map((year) => { return year[3].qNum + year[4].qNum + year[5].qNum + year[6].qNum + year[7].qNum + year[8].qNum }))) : Math.max(...matrix.map((year) => { return year[1].qNum + year[2].qNum }));
 
         let x = d3.scaleBand().range([0, Math.min(this.width, matrix.length*50)]).padding(0.2),
@@ -109,20 +129,21 @@ class GoalChart {
         this.items.enter().append("rect")
             .on("click", (d) => {
                 this.cube.object.selectHyperCubeValues("/qHyperCubeDef", 0, [d.data["year"].qElemNumber], true);
+                this.tooltip.style("opacity", 0);
             })
             .on("mouseover", (d, i, j) => {
                 let category = d3.select(j[i].parentNode).attr("category");
                 let html = `<div>${d.data["year"].qText}</div><div>${category}</div><div>${d[1]-d[0]}</div>`;
                 this.tooltip.html(html)
-                    .style("left", `${Math.min(d3.event.pageX, window.innerWidth-200)}px`)
-                    .style("top", `${d3.event.pageY - 60}px`)
+                    .style("left", `${Math.min(d3.event.pageX - $(this.cube.element).offset().left, window.innerWidth - $(this.cube.element).offset().left -200)}px`)
+                    .style("top", `${d3.event.pageY - $(this.cube.element).offset().top - 60}px`)
                 this.tooltip.transition()
                     .style("opacity", 1);
             })
             .on("mousemove", (d) => {
                 this.tooltip
-                    .style("left", `${Math.min(d3.event.pageX, window.innerWidth-200)}px`)
-                    .style("top", `${d3.event.pageY - 60}px`);
+                    .style("left", `${Math.min(d3.event.pageX - $(this.cube.element).offset().left, window.innerWidth - $(this.cube.element).offset().left -200)}px`)
+                    .style("top", `${d3.event.pageY - $(this.cube.element).offset().top - 60}px`);
             })
             .on("mouseout", (d) => {
                 this.tooltip.transition()
