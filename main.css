@@ -38,6 +38,31 @@ input[type="radio"]:checked + label span.radio::after {
   background-color: #6C788A;
 }
 
+.input-container span.checkbox::before {
+  left: -2em;
+  width: 1em;
+  height: 1em;
+  background-color: #A8AAC1;
+  border-radius: 1em;
+}
+.input-container span.checkbox::after {
+  left: -1.95em;
+  width: 0.9em;
+  height: 0.9em;
+  border-radius: 0.9em;
+  background-color: #A8AAC1;
+  transition: background-color .25s;
+}
+input[type="checkbox"]:checked + label span.checkbox::after {
+  background-color: #6C788A;
+}
+
+#total-checkbox:checked + label {
+  pointer-events: none;
+}
+
+
+
 /* d3 and tooltips */
 div.tooltip {
   position: absolute;

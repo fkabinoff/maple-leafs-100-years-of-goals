@@ -1,6 +1,8 @@
 import qlikapp from "./qlikapp";
 import qObjects from "./qObjects";
 
+
+//Radio buttons
 qObjects.then((qObjects) => {
   $("input[type=radio][name=state]").change((event) => {
     let state = event.currentTarget.value;
@@ -12,6 +14,7 @@ qObjects.then((qObjects) => {
   });
 });
 
+//Checkboxes
 qlikapp.then((qlikapp) => {
   $("input[type=checkbox][id=total-checkbox]").change((event) => {
     $("input[type=checkbox][class='type checkbox']").prop('checked', false);
@@ -29,9 +32,10 @@ qlikapp.then((qlikapp) => {
     });
   });
   $("input[type=checkbox][class='type checkbox']").change((event) => {
-    $("input[type=checkbox][id='total checkbox']").prop('checked', false);
+    $("input[type=checkbox][id='total-checkbox']").prop('checked', false);
     qlikapp.getVariableByName("vTotal").then((variable) => {
       if(!$("#ev-checkbox").prop("checked") && !$("#pp-checkbox").prop("checked") && !$("#sh-checkbox").prop("checked")) {
+        $("input[type=checkbox][id='total-checkbox']").prop('checked', true);
         variable.setNumValue(1);
       } else {
         variable.setNumValue(0);

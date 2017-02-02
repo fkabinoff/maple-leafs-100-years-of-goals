@@ -25,7 +25,7 @@
 
   <div>
     <div class="input-container">
-      <input type="radio" name="state" id="player-state-radio" value="PlayerState">
+      <input type="radio" name="state" id="player-state-radio" value="PlayerState" checked>
       <label for="player-state-radio"><span class="radio">Players</span></label>
     </div>
 
@@ -36,12 +36,24 @@
   </div>
 
   <div id="season-chart"></div>
-    <label><input type="checkbox" id="total-checkbox" class="total checkbox">Total Goals</label>
-    <label><input type="checkbox" id="ev-checkbox" class="type checkbox" value="vEV">Even Strength Goals</label>
-    <label><input type="checkbox" id="pp-checkbox" class="type checkbox" value="vPP">Power Play Goals</label>
-    <label><input type="checkbox" id="sh-checkbox" class="type checkbox" value="vSH">Short Handed Goals</label>
-  <div>
 
+  <div>
+    <div class="input-container">
+      <input type="checkbox" id="total-checkbox" class="total checkbox" checked>
+      <label for="total-checkbox"><span class="checkbox">Total Goals</span></label>
+    </div>
+    <div class="input-container">
+      <input type="checkbox" id="ev-checkbox" class="type checkbox" value="vEV">
+      <label for="ev-checkbox"><span class="checkbox">Even Strength Goals</span></label>
+    </div>
+    <div class="input-container">
+      <input type="checkbox" id="pp-checkbox" class="type checkbox" value="vPP">
+      <label for="pp-checkbox"><span class="checkbox">Power Play Goals</span></label>
+    </div>
+    <div class="input-container">
+      <input type="checkbox" id="sh-checkbox" class="type checkbox" value="vSH">
+      <label for="sh-checkbox"><span class="checkbox">Short Handed Goals</span></label>
+    </div>
   </div>
 
 </body>
