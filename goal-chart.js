@@ -66,11 +66,22 @@ class GoalChart {
         let maxGoals = matrix[0][3] ? Math.max(Math.max(...matrix.map((year) => { return year[1].qNum + year[2].qNum })), Math.max(...matrix.map((year) => { return year[3].qNum + year[4].qNum + year[5].qNum + year[6].qNum + year[7].qNum + year[8].qNum }))) : Math.max(...matrix.map((year) => { return year[1].qNum + year[2].qNum }));
 
         let x = d3.scaleBand().range([0, Math.min(this.width, matrix.length*50)]).padding(0.2),
-            y = d3.scaleLinear().range([this.height, 0]),
-            z = d3.scaleOrdinal().range(["#013878", "#013878", "#769fce", "#3fb34f", "#f69331", "#769fce", "#3fb34f", "#f69331"]);
+            y = d3.scaleLinear().range([this.height, 0]);
+            //z = d3.scaleOrdinal().range(["#013878", "#013878", "#769fce", "#3fb34f", "#f69331", "#769fce", "#3fb34f", "#f69331"]);
         x.domain(matrix.map(function(d){ return d[0].qText; }));
         y.domain([0, maxGoals]);
-        z.domain([1, 2, 3, 4, 5, 6, 7, 8]);
+        //z.domain([1, 2, 3, 4, 5, 6, 7, 8]);
+
+        let colorPalette = {
+            "Regular Season Goals": "#013878",
+            "Post Season Goals": "#013878",
+            "Regular Season Even Strength Goals": "#769fce",
+            "Regular Season Power Play Goals": "#f69331",
+            "Regular Season Short Handed Goals": "#3fb34f",
+            "Post Season Even Strength Goals": "#769fce",
+            "Post Season Power Play Goals": "#f69331", 
+            "Post Season Short Handed Goals": "#3fb34f" 
+        }
 
         this.svg.xAxis.call(d3.axisBottom(x).tickValues( x.domain().filter((d,i) => { return !(i%10) }) ));
         this.svg.yAxis.call(d3.axisLeft(y));
@@ -101,16 +112,18 @@ class GoalChart {
         let stack = d3.stack().keys(labels).value(function(d, key){ return d[key].qNum });
         let series = stack(data);
 
-        this.svg.g.selectAll(".layer")
-            .data(series)    
+        this.layers = this.svg.g.selectAll(".layer")
+            .data(series);
+        this.layers    
             .enter().append("g")
                 .attr("class", "layer")
                 .attr("category", (d, i, j) => { 
                     return labels[i];
                 })
-                .attr("fill", (d) => { return z(d.key); })
-                .attr("stroke", (d) => { return z(d.key); })
+                .attr("fill", (d) => { return colorPalette[d.key]; })
+                .attr("stroke", (d) => { return colorPalette[d.key]; })
                 .attr("mask", (d) => { if(d.key.indexOf("Post Season") === -1 ) { return null; } else { return "url(#mask-stripe)"; } });
+        this.layers.exit().remove();
 
         this.layers = d3.selectAll(".layer");
         
