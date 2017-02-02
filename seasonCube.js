@@ -66,6 +66,7 @@ seasonCube.init = () => {
           }
         }],
         qSuppressMissing: true,
+        qSuppressZero: true,
         qInitialDataFetch: [{
           qWidth: 10,
           qHeight: 1000

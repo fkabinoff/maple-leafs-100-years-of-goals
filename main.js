@@ -18,32 +18,24 @@ qlikapp.then((qlikapp) => {
     qlikapp.getVariableByName("vTotal").then((variable) => {
       variable.setNumValue(1);
     });
-    if ($("#total-checkbox").prop("checked")) {
-      qlikapp.getVariableByName("vEV").then((variable) => {
-        variable.setNumValue(0);
-      });
-      qlikapp.getVariableByName("vPP").then((variable) => {
-        variable.setNumValue(0);
-      });
-      qlikapp.getVariableByName("vSH").then((variable) => {
-        variable.setNumValue(0);
-      });
-    } else {
-      qlikapp.getVariableByName("vEV").then((variable) => {
-        variable.setNumValue(1);
-      });
-      qlikapp.getVariableByName("vPP").then((variable) => {
-        variable.setNumValue(1);
-      });
-      qlikapp.getVariableByName("vSH").then((variable) => {
-        variable.setNumValue(1);
-      });
-    }
+    qlikapp.getVariableByName("vEV").then((variable) => {
+      variable.setNumValue(0);
+    });
+    qlikapp.getVariableByName("vPP").then((variable) => {
+      variable.setNumValue(0);
+    });
+    qlikapp.getVariableByName("vSH").then((variable) => {
+      variable.setNumValue(0);
+    });
   });
   $("input[type=checkbox][class='type checkbox']").change((event) => {
     $("input[type=checkbox][id='total checkbox']").prop('checked', false);
     qlikapp.getVariableByName("vTotal").then((variable) => {
-      variable.setNumValue(0);
+      if(!$("#ev-checkbox").prop("checked") && !$("#pp-checkbox").prop("checked") && !$("#sh-checkbox").prop("checked")) {
+        variable.setNumValue(1);
+      } else {
+        variable.setNumValue(0);
+      }
     });
     qlikapp.getVariableByName("vEV").then((variable) => {
       if ($("#ev-checkbox").prop("checked")) {
