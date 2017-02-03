@@ -62,6 +62,50 @@ input[type="checkbox"]:checked + label span.checkbox::after {
 }
 
 
+/* filters */
+.open>.dropdown-menu {
+    padding: 0;
+}
+.items {
+    height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    list-style: none;
+    padding: 0;
+}
+.dropdown li.S {
+    background: #52cc52;
+}
+.dropdown li.A {
+    background: #ccc;
+}
+.dropdown li.X, .dropdown li.XS {
+    background: #777;
+}
+.dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
+    opacity: 0.5;
+}
+.dropdown-menu>li>input, .dropdown-menu .items li {
+    display: block;
+    width: 100%;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+}
+.dropdown-menu .items li {
+    cursor: pointer;
+}
+.search-icon {
+    height: 20px;
+    position: absolute;
+    top: 5px;
+    right: 0;
+}
+
+
 
 /* d3 and tooltips */
 div.tooltip {

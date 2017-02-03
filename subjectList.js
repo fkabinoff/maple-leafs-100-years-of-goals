@@ -1,6 +1,10 @@
 import qlikapp from "./qlikapp";
+import Filter from "./filter";
 
 let subjectList = {};
+
+subjectList.element = "#subject-filter";
+subjectList.label = "Players";
 
 subjectList.init = () => {
   return qlikapp.then((app) => {
@@ -13,6 +17,9 @@ subjectList.init = () => {
         qDef: {
           qFieldDefs: ["[Player Name]"]
         },
+        qAutoSortByState: {
+          qDisplayNumberOfRows: 1
+        },
         qShowAlternatives: true,
         qInitialDataFetch: [{
           qWidth: 1,
@@ -22,8 +29,9 @@ subjectList.init = () => {
     });
   }).then((object) => {
     subjectList.object = object;
+    subjectList.filter = new Filter(subjectList);
     const update = () => object.getLayout().then((layout) => {
-      //todo
+      subjectList.filter.update(layout);
     });
     object.on('changed', update);
     update();
