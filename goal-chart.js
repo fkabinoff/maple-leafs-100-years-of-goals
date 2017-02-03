@@ -3,9 +3,10 @@ import * as d3 from "d3";
 class GoalChart {
     constructor(cube) {
         this.cube = cube;
+        this.$element = $(cube.element);
         this.margin = {top: 0, right: 0, bottom: 30, left: 40};
-        this.width = 1040 - this.margin.left - this.margin.right;
-        this.height = 530 - this.margin.top - this.margin.bottom;
+        this.width = this.$element.width() - this.margin.left - this.margin.right;
+        this.height = this.$element.height() - this.margin.top - this.margin.bottom;
         this.errorMsg = d3.select(this.cube.element).append("div")
             .style("visibility", "hidden")
             .style("width", "100%")
@@ -23,9 +24,8 @@ class GoalChart {
             .attr("class", "tooltip")
             .style("opacity", 0);
         this.svg = d3.select(this.cube.element).append("svg")
-            .attr("viewBox", "0 0 1040 530")
-            .attr("preserveAspectRatio", "xMinYMin meet")
-            .attr("width", "100%")
+            .attr("width", `${this.$element.width()}px`)
+            .attr("height", `${this.$element.height()}px`);
         this.svg.g = this.svg.append("g")
             .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
         this.svg.xAxis = this.svg.g.append("g").attr("class", "x axis").attr("transform", `translate(0, ${this.height})`);
@@ -48,10 +48,15 @@ class GoalChart {
             .attr("width", "100%")
             .attr("height", "100%")
             .attr("fill", "url(#pattern-stripe)");
+            
+        $(window).resize(() => {
+            this.resize();
+        });
     }
 
     draw(layout) {
         let matrix = layout.qHyperCube.qDataPages[0].qMatrix;
+        this.rows = matrix.length;
 
         if (!matrix.length) {
             this.errorMsg.style("visibility", "visible");
@@ -63,10 +68,10 @@ class GoalChart {
         let labels = layout.qHyperCube.qMeasureInfo.map((measure) => { return measure.qFallbackTitle });
         let maxGoals = matrix[0][3] ? Math.max(Math.max(...matrix.map((year) => { return year[1].qNum + year[2].qNum })), Math.max(...matrix.map((year) => { return year[3].qNum + year[4].qNum + year[5].qNum + year[6].qNum + year[7].qNum + year[8].qNum }))) : Math.max(...matrix.map((year) => { return year[1].qNum + year[2].qNum }));
 
-        let x = d3.scaleBand().range([0, Math.min(this.width, matrix.length*50)]).padding(0.2),
-            y = d3.scaleLinear().range([this.height, 0]);
-        x.domain(matrix.map(function(d){ return d[0].qText; }));
-        y.domain([0, maxGoals]);
+        this.x = d3.scaleBand().range([0, Math.min(this.width, this.rows*50)]).padding(0.2);
+        this.y = d3.scaleLinear().range([this.height, 0]);
+        this.x.domain(matrix.map(function(d){ return d[0].qText; }));
+        this.y.domain([0, maxGoals]);
 
         let colorPalette = {
             "Regular Season Goals": "#013878",
@@ -79,8 +84,8 @@ class GoalChart {
             "Post Season Short Handed Goals": "#3fb34f" 
         }
 
-        this.svg.xAxis.call(d3.axisBottom(x).tickValues( x.domain().filter((d,i) => { return !(i%10) }) ));
-        this.svg.yAxis.call(d3.axisLeft(y));
+        this.svg.xAxis.call(d3.axisBottom(this.x).tickValues( this.x.domain().filter((d,i) => { return !(i%Math.floor(10000/this.width)) }) ));
+        this.svg.yAxis.call(d3.axisLeft(this.y));
 
         let data = matrix.map((row) => {
              let tempRow = {};
@@ -113,13 +118,13 @@ class GoalChart {
             .data((d) => { return d; });
 
         this.items
-            .attr("x", (d) => { return x(d.data["year"].qText); })
+            .attr("x", (d) => { return this.x(d.data["year"].qText); })
             .attr("y", this.height)
-            .attr("width", x.bandwidth())
+            .attr("width", this.x.bandwidth())
             .attr("height", 0)
         .transition()
-            .attr("y", (d) => { return y(d[1]); })
-            .attr("height", (d) => { return y(d[0]) - y(d[1]); });
+            .attr("y", (d) => { return this.y(d[1]); })
+            .attr("height", (d) => { return this.y(d[0]) - this.y(d[1]); });
 
         this.items.enter().append("rect")
             .on("click", (d) => {
@@ -144,16 +149,41 @@ class GoalChart {
                 this.tooltip.transition()
                     .style("opacity", 0);
             })
-            .attr("x", (d) => { return x(d.data["year"].qText); })
+            .attr("x", (d) => { return this.x(d.data["year"].qText); })
             .attr("y", this.height)
-            .attr("width", x.bandwidth())
+            .attr("width", this.x.bandwidth())
             .attr("height", 0)
         .transition()
-            .attr("y", (d) => { return y(d[1]); })
-            .attr("height", (d) => { return y(d[0]) - y(d[1]); });
+            .attr("y", (d) => { return this.y(d[1]); })
+            .attr("height", (d) => { return this.y(d[0]) - this.y(d[1]); });
             
         this.items.exit().remove();
 
+    }
+
+    resize() {
+        this.width = this.$element.width() - this.margin.left - this.margin.right;
+        this.height = this.$element.height() - this.margin.top - this.margin.bottom;
+
+        this.svg
+            .attr("width", `${this.$element.width()}px`)
+            .attr("height", `${this.$element.height()}px`);
+        this.svg.g.attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+        this.svg.xAxis.attr("transform", `translate(0, ${this.height})`);
+
+        this.x.range([0, Math.min(this.width, this.rows*50)]).padding(0.2);
+        this.y.range([this.height, 0]);
+        this.svg.xAxis.call(d3.axisBottom(this.x).tickValues( this.x.domain().filter((d,i) => { return !(i%Math.floor(10000/this.width)) }) ));
+        this.svg.yAxis.call(d3.axisLeft(this.y));
+
+        this.items = this.layers.selectAll("rect")
+            .data((d) => { return d; });
+
+        this.items
+            .attr("x", (d) => { return this.x(d.data["year"].qText); })
+            .attr("width", this.x.bandwidth())
+            .attr("y", (d) => { return this.y(d[1]); })
+            .attr("height", (d) => { return this.y(d[0]) - this.y(d[1]); });
     }
 }
 
