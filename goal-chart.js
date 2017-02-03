@@ -48,8 +48,6 @@ class GoalChart {
             .attr("width", "100%")
             .attr("height", "100%")
             .attr("fill", "url(#pattern-stripe)");
-
-        //todo: create defs for other types of goals
     }
 
     draw(layout) {
@@ -67,10 +65,8 @@ class GoalChart {
 
         let x = d3.scaleBand().range([0, Math.min(this.width, matrix.length*50)]).padding(0.2),
             y = d3.scaleLinear().range([this.height, 0]);
-            //z = d3.scaleOrdinal().range(["#013878", "#013878", "#769fce", "#3fb34f", "#f69331", "#769fce", "#3fb34f", "#f69331"]);
         x.domain(matrix.map(function(d){ return d[0].qText; }));
         y.domain([0, maxGoals]);
-        //z.domain([1, 2, 3, 4, 5, 6, 7, 8]);
 
         let colorPalette = {
             "Regular Season Goals": "#013878",
@@ -86,27 +82,13 @@ class GoalChart {
         this.svg.xAxis.call(d3.axisBottom(x).tickValues( x.domain().filter((d,i) => { return !(i%10) }) ));
         this.svg.yAxis.call(d3.axisLeft(y));
 
-        let data = matrix.map((year) => {
-            //  if(year[3] && year[3].qNum + year[4].qNum + year[5].qNum + year[6].qNum + year[7].qNum + year[8].qNum != 0 ) {
-            //      year[1] = {
-            //          qElemNumber: year[1].qElemNumber,
-            //          qNum: 0,
-            //          qState: year[1].qState,
-            //          qtext: "0"
-            //      };
-            //      year[2] = {
-            //          qElemNumber: year[2].qElemNumber,
-            //          qNum: 0,
-            //          qState: year[2].qState,
-            //          qtext: "0"
-            //      };
-            //  }
-             let reformatted = {};
-             reformatted.year = year[0];
+        let data = matrix.map((row) => {
+             let tempRow = {};
+             tempRow.year = row[0];
              labels.forEach((label, i) => {
-                reformatted[label] = year[i+1];
+                tempRow[label] = row[i+1];
              });
-             return reformatted; 
+             return tempRow; 
         });
 
         let stack = d3.stack().keys(labels).value(function(d, key){ return d[key].qNum });
