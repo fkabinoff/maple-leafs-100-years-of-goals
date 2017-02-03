@@ -1,6 +1,9 @@
 import qlikapp from "./qlikapp";
+import Filter from "./filter";
 
 let seasonList = {};
+
+seasonList.element = "#season-filter";
 
 seasonList.init = () => {
   return qlikapp.then((app) => {
@@ -11,7 +14,11 @@ seasonList.init = () => {
       qListObjectDef: {
         qStateName: "PlayerState",
         qDef: {
-          qFieldDefs: ["[Season]"]
+          qFieldDefs: ["[Season]"],
+          qFieldLabels: ["Seasons"]
+        },
+        qAutoSortByState: {
+          qDisplayNumberOfRows: 1
         },
         qShowAlternatives: true,
         qInitialDataFetch: [{
@@ -22,8 +29,9 @@ seasonList.init = () => {
     });
   }).then((object) => {
     seasonList.object = object;
+    seasonList.filter = new Filter(seasonList);
     const update = () => object.getLayout().then((layout) => {
-      //todo
+      seasonList.filter.update(layout);
     });
     object.on('changed', update);
     update();

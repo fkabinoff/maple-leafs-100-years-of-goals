@@ -1,6 +1,9 @@
 import qlikapp from "./qlikapp";
+import Filter from "./filter";
 
 let decadeList = {};
+
+decadeList.element = "#decade-filter";
 
 decadeList.init = () => {
   return qlikapp.then((app) => {
@@ -11,7 +14,11 @@ decadeList.init = () => {
       qListObjectDef: {
         qStateName: "PlayerState",
         qDef: {
-          qFieldDefs: ["[Player Season Decade]"]
+          qFieldDefs: ["[Player Season Decade]"],
+          qFieldLabels: ["Decades"]
+        },
+        qAutoSortByState: {
+          qDisplayNumberOfRows: 1
         },
         qShowAlternatives: true,
         qInitialDataFetch: [{
@@ -22,8 +29,9 @@ decadeList.init = () => {
     });
   }).then((object) => {
     decadeList.object = object;
+    decadeList.filter = new Filter(decadeList);
     const update = () => object.getLayout().then((layout) => {
-      //todo
+      decadeList.filter.update(layout);
     });
     object.on('changed', update);
     update();

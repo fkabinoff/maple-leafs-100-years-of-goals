@@ -4,7 +4,6 @@ import Filter from "./filter";
 let subjectList = {};
 
 subjectList.element = "#subject-filter";
-subjectList.label = "Players";
 
 subjectList.init = () => {
   return qlikapp.then((app) => {
