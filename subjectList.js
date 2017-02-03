@@ -15,7 +15,8 @@ subjectList.init = () => {
       qListObjectDef: {
         qStateName: "PlayerState",
         qDef: {
-          qFieldDefs: ["[Player Name]"]
+          qFieldDefs: ["[Player Name]"],
+          qFieldLabels: ["Players"]
         },
         qAutoSortByState: {
           qDisplayNumberOfRows: 1
@@ -50,6 +51,11 @@ subjectList.changeState = (state) => {
           qOp: "replace",
           qPath: "/qListObjectDef/qDef/qFieldDefs/0",
           qValue: JSON.stringify("[Player Name]")
+      },
+      {
+          qOp: "replace",
+          qPath: "/qListObjectDef/qDef/qFieldLabels/0",
+          qValue: JSON.stringify("Players")
       }
     ]);
   } else if (state === "OpponentState") {
@@ -63,6 +69,11 @@ subjectList.changeState = (state) => {
           qOp: "replace",
           qPath: "/qListObjectDef/qDef/qFieldDefs/0",
           qValue: JSON.stringify("[Opponent]")
+      },
+      {
+          qOp: "replace",
+          qPath: "/qListObjectDef/qDef/qFieldLabels/0",
+          qValue: JSON.stringify("Opponents")
       }
     ]);
   }

@@ -2,11 +2,10 @@ class Filter {
     constructor(list) {
         this.object = list.object;
         this.$element = $(list.element);
-        this.label = list.label;
         this.template =
             `<div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" aria-haspopup="true" aria-expanded="true" (click)="open()">
-                    <span class="label">${this.label}</label>
+                    <span class="label"></label>
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
@@ -36,10 +35,11 @@ class Filter {
 
     update(layout) {
         this.matrix = layout.qListObject.qDataPages[0].qMatrix;
+        let title = layout.qListObject.qDimensionInfo.qFallbackTitle;
         let selected = layout.qListObject.qDataPages[0].qMatrix.filter((row) => {
             return row[0].qState === "S";
         });
-        let label = selected.length === 0 ? this.label : selected.length === 1 ? selected[0][0].qText : `${selected.length} ${this.label} selected`;
+        let label = selected.length === 0 ? title : selected.length === 1 ? selected[0][0].qText : `${selected.length} ${title} selected`;
         this.$label.html(label);
         this.render();
     }
