@@ -1,5 +1,5 @@
 import qlikapp from "./qlikapp";
-import GoalChart from "./goal-chart";
+import SeasonChart from "./seasonChart";
 
 let seasonCube = {};
 
@@ -75,7 +75,7 @@ seasonCube.init = () => {
     });
   }).then((object) => {
     seasonCube.object = object;
-    seasonCube.chart = new GoalChart(seasonCube);
+    seasonCube.chart = new SeasonChart(seasonCube);
     const update = () => object.getLayout().then((layout) => {
       seasonCube.chart.draw(layout);
     });
