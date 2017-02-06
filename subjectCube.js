@@ -1,6 +1,8 @@
 import qlikapp from "./qlikapp";
+import SubjectChart from "./subjectChart";
 
 let subjectCube = {};
+subjectCube.element = "#subject-chart";
 let playerMeasure = "Sum(Goals) + Sum([Post-season Goals])";
 let opponentMeasure = "Sum({<[Regular/Post Season]={'Regular season'}>} [Opponent Goals]) + Sum({<[Regular/Post Season]={'Post-season'}>} [Opponent Goals])";
 
@@ -33,8 +35,9 @@ subjectCube.init = () => {
     });
   }).then((object) => {
     subjectCube.object = object;
+    subjectCube.chart = new SubjectChart(subjectCube);
     const update = () => object.getLayout().then((layout) => {
-      //todo
+      subjectCube.chart.update(layout);
     });
     object.on('changed', update);
     update();
