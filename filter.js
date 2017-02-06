@@ -63,13 +63,13 @@ class Filter {
     }
 
     open() {
-        this.$filter.toggleClass("open");
+        this.$filter.toggleClass("show");
     }
 
     close(event) {
         if(!this.$element.has(event.target).length) {
             this.$items.scrollTop(0);
-            this.$filter.removeClass("open");
+            this.$filter.removeClass("show");
         }
     }
 }

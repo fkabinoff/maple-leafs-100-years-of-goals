@@ -10,57 +10,97 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/css/tether.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
   <!-- Bootstrap 4 -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
-  <!-- Select2 -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
   <!--Project code -->
   <script src="bundle.js"></script>
   <link rel="stylesheet" href="main.css">
 
 </head>
 <body>
-  <h1>Maple Leafs lorem ipsum</h1>
-
-  <div>
-    <div class="input-container">
-      <input type="radio" name="state" id="player-state-radio" value="PlayerState" checked>
-      <label for="player-state-radio"><span class="radio">Players</span></label>
+  <div class="container">
+    <h1>Maple Leafs lorem ipsum</h1>
+    
+    <div class="row">
+      <div class="col-auto">
+        <div class="input-container">
+          <input type="radio" name="state" id="player-state-radio" value="PlayerState" checked>
+          <label for="player-state-radio"><span class="radio">Players</span></label>
+        </div>
+      </div>
+      <div class="col-auto">
+        <div class="input-container">
+          <input type="radio" name="state" id="opponent-state-radio" value="OpponentState">
+          <label for="opponent-state-radio"><span class="radio">Opponents</span></label>  
+        </div>
+      </div>
     </div>
 
-    <div class="input-container">
-      <input type="radio" name="state" id="opponent-state-radio" value="OpponentState">
-      <label for="opponent-state-radio"><span class="radio">Opponents</span></label>  
+    <div class="row">
+      <div class="col">
+        <h2>Goals per season</h2>
+      </div>
+      <div class="col-auto">
+        <button class="btn default">Clear Selections</button>
+      </div>
     </div>
+
+    <div class="row">
+      <div class="col-auto">
+        <div id="subject-filter"></div>
+      </div>
+      <div class="col-auto">
+        <div id="season-filter"></div>
+      </div>
+      <div class="col-auto">
+        <div id="decade-filter"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+       <div id="season-chart"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="input-container">
+          <input type="checkbox" id="total-checkbox" class="total checkbox" checked>
+          <label for="total-checkbox"><span class="checkbox">Total Goals</span></label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="input-container">
+          <input type="checkbox" id="ev-checkbox" class="type checkbox" value="vEV">
+          <label for="ev-checkbox"><span class="checkbox">Even Strength Goals</span></label>
+        </div>
+      </div>
+      <div class="col">
+        <div class="input-container">
+          <input type="checkbox" id="pp-checkbox" class="type checkbox" value="vPP">
+          <label for="pp-checkbox"><span class="checkbox">Power Play Goals</span></label>
+        </div>
+      </div>
+      <div class="col">
+        <div class="input-container">
+          <input type="checkbox" id="sh-checkbox" class="type checkbox" value="vSH">
+          <label for="sh-checkbox"><span class="checkbox">Short Handed Goals</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6">
+        The bar chart to the right lists the Maple Leafs players sorted by total number of goals
+      </div>
+      <div class="col-sm-6">
+        <div id="subject-chart"></div>
+      </div>
+    </div>
+
   </div>
-
-  <div id="subject-filter"></div>
-  <div id="season-filter"></div>
-  <div id="decade-filter"></div>
-
-  <div id="season-chart"></div>
-
-  <div>
-    <div class="input-container">
-      <input type="checkbox" id="total-checkbox" class="total checkbox" checked>
-      <label for="total-checkbox"><span class="checkbox">Total Goals</span></label>
-    </div>
-    <div class="input-container">
-      <input type="checkbox" id="ev-checkbox" class="type checkbox" value="vEV">
-      <label for="ev-checkbox"><span class="checkbox">Even Strength Goals</span></label>
-    </div>
-    <div class="input-container">
-      <input type="checkbox" id="pp-checkbox" class="type checkbox" value="vPP">
-      <label for="pp-checkbox"><span class="checkbox">Power Play Goals</span></label>
-    </div>
-    <div class="input-container">
-      <input type="checkbox" id="sh-checkbox" class="type checkbox" value="vSH">
-      <label for="sh-checkbox"><span class="checkbox">Short Handed Goals</span></label>
-    </div>
-  </div>
-
-  <div id="subject-chart"></div>
-
 </body>
 </html>
