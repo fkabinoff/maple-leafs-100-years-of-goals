@@ -18,7 +18,7 @@
 
 </head>
 <body>
-  <div class="container">
+  <div class="container-fluid">
     <h1>Maple Leafs lorem ipsum</h1>
     
     <div class="row">
@@ -36,24 +36,26 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row align-center">
       <div class="col">
         <h2>Goals per season</h2>
       </div>
       <div class="col-auto">
-        <button class="btn default">Clear Selections</button>
+        <div class="clear-selections">
+          <button class="btn default">Clear Selections</button>
+        </div>
       </div>
     </div>
 
-    <div class="row">
+    <div class="filters row">
       <div class="col-auto">
-        <div id="subject-filter"></div>
+        <div class="filter" id="subject-filter"></div>
       </div>
       <div class="col-auto">
-        <div id="season-filter"></div>
+        <div class="filter" id="season-filter"></div>
       </div>
       <div class="col-auto">
-        <div id="decade-filter"></div>
+        <div class="filter" id="decade-filter"></div>
       </div>
     </div>
 
