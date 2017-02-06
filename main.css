@@ -130,4 +130,6 @@ div.tooltip {
   position: relative;
   width: 400px;
   height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
