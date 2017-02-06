@@ -33,6 +33,7 @@ subjectCube.init = () => {
           }
         }],
         qSuppressMissing: true,
+        qSuppressZero: true,
         qInterColumnSortOrder: [1,0],
         qInitialDataFetch: [{
           qWidth: 2,

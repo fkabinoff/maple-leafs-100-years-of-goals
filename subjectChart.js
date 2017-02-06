@@ -25,7 +25,8 @@ class SubjectChart {
             .style("opacity", 0);
         this.svg = d3.select(this.cube.element).append("svg")
             .attr("width", `${this.$element.width()}px`)
-            .attr("height", `${this.$element.height()}px`);
+            .attr("height", `${this.$element.height()}px`)
+            .attr("shape-rendering", "optimizeSpeed");
         this.svg.g = this.svg.append("g")
             .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
         this.svg.xAxis = this.svg.g.append("g").attr("class", "x axis").attr("transform", `translate(0, ${this.height})`);

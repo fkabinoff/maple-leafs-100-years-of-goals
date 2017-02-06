@@ -4,7 +4,7 @@ class SeasonChart {
     constructor(cube) {
         this.cube = cube;
         this.$element = $(cube.element);
-        this.margin = {top: 0, right: 0, bottom: 30, left: 40};
+        this.margin = {top: 0, right: 0, bottom: 20, left: 20};
         this.width = this.$element.width() - this.margin.left - this.margin.right;
         this.height = this.$element.height() - this.margin.top - this.margin.bottom;
         this.errorMsg = d3.select(this.cube.element).append("div")
@@ -33,13 +33,13 @@ class SeasonChart {
         this.svg.defs = this.svg.append("defs");
         this.svg.defs.append("pattern")
             .attr("id", `${this.$element.attr("id")}-pattern-stripe`)
-            .attr("width", 4)
-            .attr("height", 4)
+            .attr("width", 2)
+            .attr("height", 2)
             .attr("patternUnits", "userSpaceOnUse")
             .attr("patternTransform", "rotate(45)")
         .append("rect")
-            .attr("width", 3)
-            .attr("height", 4)
+            .attr("width", 1)
+            .attr("height", 2)
             .attr("transform", "translate(0,0)")
             .attr("fill", "white");
         this.svg.defs.append("mask")
@@ -68,7 +68,7 @@ class SeasonChart {
         let labels = layout.qHyperCube.qMeasureInfo.map((measure) => { return measure.qFallbackTitle });
         let maxGoals = matrix[0][3] ? Math.max(Math.max(...matrix.map((year) => { return year[1].qNum + year[2].qNum })), Math.max(...matrix.map((year) => { return year[3].qNum + year[4].qNum + year[5].qNum + year[6].qNum + year[7].qNum + year[8].qNum }))) : Math.max(...matrix.map((year) => { return year[1].qNum + year[2].qNum }));
 
-        this.x = d3.scaleBand().range([0, Math.min(this.width, this.rows*50)]).padding(0.2);
+        this.x = d3.scaleBand().range([0, Math.min(this.width, this.rows*50)]).paddingInner(0.25).paddingOuter(0);
         this.y = d3.scaleLinear().range([this.height, 0]);
         this.x.domain(matrix.map(function(d){ return d[0].qText; }));
         this.y.domain([0, maxGoals]);
@@ -84,8 +84,8 @@ class SeasonChart {
             "Post Season Short Handed Goals": "#3fb34f" 
         }
 
-        this.svg.xAxis.call(d3.axisBottom(this.x).tickValues( this.x.domain().filter((d,i) => { return !(i%Math.floor(10000/this.width)) }) ));
-        this.svg.yAxis.call(d3.axisLeft(this.y));
+        this.svg.xAxis.call(d3.axisBottom(this.x).tickValues( this.x.domain().filter((d,i) => { return !(i%Math.floor(10000/this.width)) }) ).tickSizeOuter(0));
+        this.svg.yAxis.call(d3.axisLeft(this.y).tickSizeOuter(0));
 
         let data = matrix.map((row) => {
              let tempRow = {};
@@ -171,7 +171,7 @@ class SeasonChart {
         this.svg.g.attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
         this.svg.xAxis.attr("transform", `translate(0, ${this.height})`);
 
-        this.x.range([0, Math.min(this.width, this.rows*50)]).padding(0.2);
+        this.x.range([0, Math.min(this.width, this.rows*50)]).paddingInner(0.25).paddingOuter(0);
         this.y.range([this.height, 0]);
         this.svg.xAxis.call(d3.axisBottom(this.x).tickValues( this.x.domain().filter((d,i) => { return !(i%Math.floor(10000/this.width)) }) ));
         this.svg.yAxis.call(d3.axisLeft(this.y));
