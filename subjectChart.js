@@ -32,7 +32,7 @@ class SubjectChart {
         this.svg.yAxis = this.svg.g.append("g").attr("class", "y axis");
         this.svg.defs = this.svg.append("defs");
         this.svg.defs.append("pattern")
-            .attr("id", "pattern-stripe")
+            .attr("id", `${this.$element.attr("id")}-pattern-stripe`)
             .attr("width", 4)
             .attr("height", 4)
             .attr("patternUnits", "userSpaceOnUse")
@@ -43,11 +43,11 @@ class SubjectChart {
             .attr("transform", "translate(0,0)")
             .attr("fill", "white");
         this.svg.defs.append("mask")
-            .attr("id", "mask-stripe")
+            .attr("id", `${this.$element.attr("id")}-mask-stripe`)
         .append("rect")
             .attr("width", "100%")
             .attr("height", "100%")
-            .attr("fill", "url(#pattern-stripe)");
+            .attr("fill", `url(#${this.$element.attr("id")}-pattern-stripe)`);
             
         $(window).resize(() => {
             this.resize();
@@ -109,7 +109,7 @@ class SubjectChart {
                 })
                 .attr("fill", (d) => { return colorPalette[d.key]; })
                 .attr("stroke", (d) => { return colorPalette[d.key]; })
-                .attr("mask", (d) => { if(d.key.indexOf("Post Season") === -1 ) { return null; } else { return "url(#mask-stripe)"; } });
+                .attr("mask", (d) => { if(d.key.indexOf("Post Season") === -1 ) { return null; } else { return `url(#${this.$element.attr("id")}-mask-stripe)`; } });
         this.layers.exit().remove();
 
         this.layers = d3.selectAll(".layer");
