@@ -80,6 +80,7 @@ class SubjectChart {
         let bars = this.svg.g.selectAll(".bar")
             .data(this.matrix);   
         bars
+            .attr("fill", colorPalette[label])
             .attr("x", 0)
             .attr("y", (d) => { return this.y(d[0].qText) })
             .attr("height", this.y.bandwidth())

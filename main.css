@@ -155,6 +155,18 @@ div.tooltip {
   overflow-x: hidden;
 }
 
+/* misc */
+.dropdown-toggle, .dropdown-menu {
+  cursor: pointer;
+}
+.subject-chart-area .heading {
+  font-weight: bold;
+  color: #013878;
+}
+.opponent-state {
+  display: none;
+}
+
 /* layout */
 .states.row {
   margin-top: 30px;
@@ -171,5 +183,7 @@ div.tooltip {
 }
 .checkbox-filters {
   margin-top: 15px;
-  margin-bottom: 45px;
+}
+.subject-chart-area {
+  margin-top: 45px;
 }
