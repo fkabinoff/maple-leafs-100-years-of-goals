@@ -4,7 +4,7 @@ class SeasonChart {
     constructor(cube) {
         this.cube = cube;
         this.$element = $(cube.element);
-        this.margin = {top: 0, right: 0, bottom: 20, left: 20};
+        this.margin = {top: 0, right: 0, bottom: 20, left: 30};
         this.width = this.$element.width() - this.margin.left - this.margin.right;
         this.height = this.$element.height() - this.margin.top - this.margin.bottom;
         this.errorMsg = d3.select(this.cube.element).append("div")
@@ -173,8 +173,8 @@ class SeasonChart {
 
         this.x.range([0, Math.min(this.width, this.rows*50)]).paddingInner(0.25).paddingOuter(0);
         this.y.range([this.height, 0]);
-        this.svg.xAxis.call(d3.axisBottom(this.x).tickValues( this.x.domain().filter((d,i) => { return !(i%Math.floor(10000/this.width)) }) ));
-        this.svg.yAxis.call(d3.axisLeft(this.y));
+        this.svg.xAxis.call(d3.axisBottom(this.x).tickValues( this.x.domain().filter((d,i) => { return !(i%Math.floor(10000/this.width)) }) ).tickSizeOuter(0));
+        this.svg.yAxis.call(d3.axisLeft(this.y).tickSizeOuter(0));
 
         this.items = this.layers.selectAll("rect")
             .data((d) => { return d; });

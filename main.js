@@ -2,11 +2,12 @@ import qlikapp from "./qlikapp";
 import qObjects from "./qObjects";
 import subjectCube from "./subjectCube";
 
+let state = "PlayerState";
 
 //Radio buttons
 qObjects.then((qObjects) => {
   $("input[type=radio][name=state]").change((event) => {
-    let state = event.currentTarget.value;
+    state = event.currentTarget.value;
     if (state === "PlayerState") {
       $(".player-state").show();
       $(".opponent-state").hide();
@@ -79,5 +80,16 @@ qObjects.then((qObjects) => {
     let $target = $(event.target);
     $("#player-measure-dropdown .label").html($target.html());
     subjectCube.changeMeasure($target.attr("value"));
+  });
+});
+
+//Clear selections
+qlikapp.then((qlikapp) => {
+  $(".clear-selections button").click(() => {
+    if (state === "PlayerState") {
+      qlikapp.clearAll(true, "PlayerState");
+    } else if (state === "OpponentState") {
+      qlikapp.clearAll(true, "OpponentState");
+    }
   });
 });
