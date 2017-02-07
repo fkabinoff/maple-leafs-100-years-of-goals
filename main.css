@@ -144,6 +144,12 @@ input[type="checkbox"]:checked + label[for="sh-checkbox"] span.checkbox::after {
 
 
 /* d3, tooltips, charts */
+.y.axis path {
+  display: none;
+}
+.y.axis line {
+  stroke: #ccc;
+}
 div.tooltip {
   position: absolute;
   padding: 8px;

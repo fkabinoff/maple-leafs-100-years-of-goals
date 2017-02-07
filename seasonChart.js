@@ -85,7 +85,7 @@ class SeasonChart {
         }
 
         this.svg.xAxis.call(d3.axisBottom(this.x).tickValues( this.x.domain().filter((d,i) => { return !(i%Math.floor(10000/this.width)) }) ).tickSizeOuter(0));
-        this.svg.yAxis.call(d3.axisLeft(this.y).tickSizeOuter(0));
+        this.svg.yAxis.call(d3.axisLeft(this.y).tickSizeOuter(0).tickSizeInner(-this.width));
 
         let data = matrix.map((row) => {
              let tempRow = {};
