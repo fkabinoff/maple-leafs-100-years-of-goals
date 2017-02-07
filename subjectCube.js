@@ -116,7 +116,7 @@ subjectCube.changeMeasure = (measure) => {
     playerMeasure = "Sum([Short Handed Goals]) + Sum([Post-season Short Handed Goals])";
     playerLabel = "Short Handed Goals";
   } else if (measure === "GW") {
-    playerMeasure = "Sum(Game Winning Goals) + Sum([Post-season Game Winning Goals])";
+    playerMeasure = "Sum([Game Winning Goals]) + Sum([Post-season Game Winning Goals])";
     playerLabel = "Game Winning Goals";
   }
   return subjectCube.object.applyPatches([

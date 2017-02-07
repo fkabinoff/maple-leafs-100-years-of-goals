@@ -174,7 +174,7 @@ class SeasonChart {
         this.x.range([0, Math.min(this.width, this.rows*50)]).paddingInner(0.25).paddingOuter(0);
         this.y.range([this.height, 0]);
         this.svg.xAxis.call(d3.axisBottom(this.x).tickValues( this.x.domain().filter((d,i) => { return !(i%Math.floor(10000/this.width)) }) ).tickSizeOuter(0));
-        this.svg.yAxis.call(d3.axisLeft(this.y).tickSizeOuter(0));
+        this.svg.yAxis.call(d3.axisLeft(this.y).tickSizeOuter(0).tickSizeInner(-this.width));
 
         this.items = this.layers.selectAll("rect")
             .data((d) => { return d; });

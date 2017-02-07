@@ -4,7 +4,7 @@ class SubjectChart {
     constructor(cube) {
         this.cube = cube;
         this.$element = $(cube.element);
-        this.margin = {top: 0, right: 30, bottom: 0, left: 100};
+        this.margin = {top: 0, right: 30, bottom: 0, left: 120};
         this.width = this.$element.width() - this.margin.left - this.margin.right;
         this.height = this.$element.height() - this.margin.top - this.margin.bottom;
         this.errorMsg = d3.select(this.cube.element).append("div")
@@ -50,11 +50,11 @@ class SubjectChart {
             this.errorMsg.style("visibility", "hidden");
         }
 
-        this.height = 36 * this.matrix.length;
+        this.height = 20 * this.matrix.length;
         this.svg.attr("height", `${this.height}px`);
 
         this.x = d3.scaleLinear().range([20, this.width]);
-        this.y = d3.scaleBand().range([0, this.height]).paddingInner(0.4).paddingOuter(0);
+        this.y = d3.scaleBand().range([0, this.height]).paddingInner(0.3).paddingOuter(0);
         this.x.domain([0, layout.qHyperCube.qMeasureInfo[0].qMax]);
         this.y.domain(this.matrix.map((d) => { return d[0].qText; }));
 
@@ -74,7 +74,7 @@ class SubjectChart {
             "Even Strength Goals": "#769fce",
             "Power Play Goals": "#3fb34f",
             "Short Handed Goals": "#f69331",
-            "Game Winning Goals": "#769fce",
+            "Game Winning Goals": "#CCBA3E",
         }
 
         let bars = this.svg.g.selectAll(".bar")
@@ -123,7 +123,7 @@ class SubjectChart {
             .data(this.matrix);
         values
             .attr("x", (d) => { return this.x(d[1].qNum) - 2 })
-            .attr("y", (d) => { return this.y(d[0].qText) + this.y.bandwidth()*(2/3) })
+            .attr("y", (d) => { return this.y(d[0].qText) + this.y.bandwidth()*(3/4) })
             .text((d) => { return d[1].qNum });
         values
             .enter().append("text")
@@ -132,7 +132,7 @@ class SubjectChart {
             .attr("font-size", "10")
             .attr("text-anchor", "end")
             .attr("x", (d) => { return this.x(d[1].qNum) - 2 })
-            .attr("y", (d) => { return this.y(d[0].qText) + this.y.bandwidth()*(2/3) })
+            .attr("y", (d) => { return this.y(d[0].qText) + this.y.bandwidth()*(3/4) })
             .text((d) => { return d[1].qNum })
             .on("click", (d) => { this.toggleSelection(d) });
         values.exit().remove();
