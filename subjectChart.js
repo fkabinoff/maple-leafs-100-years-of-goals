@@ -72,8 +72,8 @@ class SubjectChart {
         let colorPalette = {
             "Goals": "#013878",
             "Even Strength Goals": "#769fce",
-            "Power Play Goals": "#f69331",
-            "Short Handed Goals": "#3fb34f",
+            "Power Play Goals": "#3fb34f",
+            "Short Handed Goals": "#f69331",
             "Game Winning Goals": "#769fce",
         }
 

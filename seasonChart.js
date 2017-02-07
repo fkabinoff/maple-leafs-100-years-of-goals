@@ -77,11 +77,11 @@ class SeasonChart {
             "Regular Season Goals": "#013878",
             "Post Season Goals": "#013878",
             "Regular Season Even Strength Goals": "#769fce",
-            "Regular Season Power Play Goals": "#f69331",
-            "Regular Season Short Handed Goals": "#3fb34f",
+            "Regular Season Power Play Goals": "#3fb34f",
+            "Regular Season Short Handed Goals": "#f69331",
             "Post Season Even Strength Goals": "#769fce",
-            "Post Season Power Play Goals": "#f69331", 
-            "Post Season Short Handed Goals": "#3fb34f" 
+            "Post Season Power Play Goals": "#3fb34f", 
+            "Post Season Short Handed Goals": "#f69331" 
         }
 
         this.svg.xAxis.call(d3.axisBottom(this.x).tickValues( this.x.domain().filter((d,i) => { return !(i%Math.floor(10000/this.width)) }) ).tickSizeOuter(0));

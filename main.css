@@ -84,10 +84,10 @@ input[type="checkbox"]:checked + label[for="ev-checkbox"] span.checkbox::after {
   background-color: #769fce;
 }
 input[type="checkbox"]:checked + label[for="pp-checkbox"] span.checkbox::after {
-  background-color: #f69331;
+  background-color: #3fb34f;
 }
 input[type="checkbox"]:checked + label[for="sh-checkbox"] span.checkbox::after {
-  background-color: #3fb34f;
+  background-color: #f69331;
 }
 
 #total-checkbox:checked + label {
