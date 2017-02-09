@@ -4,7 +4,7 @@ class SeasonChart {
     constructor(cube) {
         this.cube = cube;
         this.$element = $(cube.element);
-        this.margin = {top: 10, right: 10, bottom: 20, left: 30};
+        this.margin = {top: 20, right: 20, bottom: 20, left: 30};
         this.width = this.$element.width() - this.margin.left - this.margin.right;
         this.height = this.$element.height() - this.margin.top - this.margin.bottom;
         this.errorMsg = d3.select(this.cube.element).append("div")
