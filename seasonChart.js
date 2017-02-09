@@ -114,7 +114,21 @@ class SeasonChart {
             "Post Season Short Handed Goals": "#f69331" 
         }
 
-        this.svg.xAxis.call(d3.axisBottom(this.x).tickValues( this.x.domain().filter((d,i) => { return !(i%Math.floor(10000/this.width)) }) ).tickSizeOuter(0));
+        let findAxisIndicies = (start, end, max) => {
+            let axisIndicies = [];
+            let distribution = (end - start) / (max - 1);
+            axisIndicies.push(start);
+            for(let i = 1; i <= max - 2; i++) {
+                axisIndicies.push(Math.round(start + (distribution * i)));
+            }
+            axisIndicies.push(end);
+            return axisIndicies;
+        }
+
+        let maxLabels = Math.floor(this.width/50) > this.x.domain().length ? Math.floor(this.width/50) : Math.min(Math.floor(this.width/50), Math.floor(this.x.domain().length/3));
+        let axisIndicies = findAxisIndicies(0, this.x.domain().length - 1, maxLabels);
+
+        this.svg.xAxis.call(d3.axisBottom(this.x).tickValues( this.x.domain().filter((d,i) => { return axisIndicies.includes(i); })).tickSizeOuter(0));
         this.svg.yAxis.call(d3.axisLeft(this.y).tickSizeOuter(0).tickSizeInner(-this.width));
         this.svg.yAxis.selectAll(".tick text")
             .attr("transform", "translate(-" + 2 + ",0)");
@@ -207,7 +221,22 @@ class SeasonChart {
 
         this.x.range([0, Math.min(this.width, this.rows*50)]).paddingInner(0.25).paddingOuter(0);
         this.y.range([this.height, 0]);
-        this.svg.xAxis.call(d3.axisBottom(this.x).tickValues( this.x.domain().filter((d,i) => { return !(i%Math.floor(10000/this.width)) }) ).tickSizeOuter(0));
+        
+        let findAxisIndicies = (start, end, max) => {
+            let axisIndicies = [];
+            let distribution = (end - start) / (max - 1);
+            axisIndicies.push(start);
+            for(let i = 1; i <= max - 2; i++) {
+                axisIndicies.push(Math.round(start + (distribution * i)));
+            }
+            axisIndicies.push(end);
+            return axisIndicies;
+        }
+
+        let maxLabels = Math.floor(this.width/50) > this.x.domain().length ? Math.floor(this.width/50) : Math.min(Math.floor(this.width/50), Math.floor(this.x.domain().length/3));
+        let axisIndicies = findAxisIndicies(0, this.x.domain().length - 1, maxLabels);
+
+        this.svg.xAxis.call(d3.axisBottom(this.x).tickValues( this.x.domain().filter((d,i) => { return axisIndicies.includes(i); })).tickSizeOuter(0));
         this.svg.yAxis.call(d3.axisLeft(this.y).tickSizeOuter(0).tickSizeInner(-this.width));
         this.svg.yAxis.selectAll(".tick text")
             .attr("transform", "translate(-" + 2 + ",0)");
