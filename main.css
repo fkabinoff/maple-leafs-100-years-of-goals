@@ -121,6 +121,9 @@ input[type="checkbox"]:checked + label[for="sh-checkbox"] span.checkbox::after {
 .dropdown li.S {
     background: #52cc52;
 }
+.dropdown li.S span {
+  color: white;
+}
 .dropdown li.A {
     background: #eee;
 }
