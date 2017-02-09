@@ -4,7 +4,7 @@ class SeasonChart {
     constructor(cube) {
         this.cube = cube;
         this.$element = $(cube.element);
-        this.margin = {top: 20, right: 20, bottom: 20, left: 32};
+        this.margin = {top: 30, right: 20, bottom: 20, left: 32};
         this.width = this.$element.width() - this.margin.left - this.margin.right;
         this.height = this.$element.height() - this.margin.top - this.margin.bottom;
         this.errorMsg = d3.select(this.cube.element).append("div")
@@ -50,6 +50,33 @@ class SeasonChart {
             .attr("width", "100%")
             .attr("height", "100%")
             .attr("fill", `url(#${this.$element.attr("id")}-pattern-stripe)`);
+        this.legend = this.svg.append("g")
+            .attr("transform", "translate(" + (this.$element.width() - 190) + "," + 0 + ")");
+        this.legend.append("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", 10)
+            .attr("height", 10)
+            .attr("fill", "#999");
+        this.legend.append("text")
+            .attr("x", 15)
+            .attr("y", 9)
+            .attr("font-size", "11px")
+            .attr("fill", "#999")
+            .text("Regular Season");
+        this.legend.append("rect")
+            .attr("x", 110)
+            .attr("y", 0)
+            .attr("width", 10)
+            .attr("height", 10)
+            .attr("fill", "#999")
+            .attr("mask", `url(#${this.$element.attr("id")}-mask-stripe)`)
+        this.legend.append("text")
+            .attr("x", 125)
+            .attr("y", 9)
+            .attr("font-size", "11px")
+            .attr("fill", "#999")
+            .text("Post Season")
             
         $(window).resize(() => {
             this.resize();
@@ -174,6 +201,8 @@ class SeasonChart {
             .attr("height", `${this.$element.height()}px`);
         this.svg.g.attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
         this.svg.xAxis.attr("transform", `translate(0, ${this.height})`);
+
+        this.legend.attr("transform", "translate(" + (this.$element.width() - 190) + "," + 0 + ")");
 
         this.x.range([0, Math.min(this.width, this.rows*50)]).paddingInner(0.25).paddingOuter(0);
         this.y.range([this.height, 0]);
