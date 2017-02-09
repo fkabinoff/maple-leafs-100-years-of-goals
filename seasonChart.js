@@ -4,7 +4,7 @@ class SeasonChart {
     constructor(cube) {
         this.cube = cube;
         this.$element = $(cube.element);
-        this.margin = {top: 20, right: 20, bottom: 20, left: 30};
+        this.margin = {top: 20, right: 20, bottom: 20, left: 36};
         this.width = this.$element.width() - this.margin.left - this.margin.right;
         this.height = this.$element.height() - this.margin.top - this.margin.bottom;
         this.errorMsg = d3.select(this.cube.element).append("div")
@@ -88,6 +88,8 @@ class SeasonChart {
 
         this.svg.xAxis.call(d3.axisBottom(this.x).tickValues( this.x.domain().filter((d,i) => { return !(i%Math.floor(10000/this.width)) }) ).tickSizeOuter(0));
         this.svg.yAxis.call(d3.axisLeft(this.y).tickSizeOuter(0).tickSizeInner(-this.width));
+        this.svg.yAxis.selectAll(".tick text")
+            .attr("transform", "translate(-" + 6 + ",0)");
 
         let data = matrix.map((row) => {
              let tempRow = {};
@@ -177,6 +179,8 @@ class SeasonChart {
         this.y.range([this.height, 0]);
         this.svg.xAxis.call(d3.axisBottom(this.x).tickValues( this.x.domain().filter((d,i) => { return !(i%Math.floor(10000/this.width)) }) ).tickSizeOuter(0));
         this.svg.yAxis.call(d3.axisLeft(this.y).tickSizeOuter(0).tickSizeInner(-this.width));
+        this.svg.yAxis.selectAll(".tick text")
+            .attr("transform", "translate(-" + 6 + ",0)");
 
         this.items = this.layers.selectAll("rect")
             .data((d) => { return d; });
