@@ -8,6 +8,10 @@ body {
 body, text {
   font-family: 'Old Standard TT', serif;
 }
+text {
+  /*font-family: Georgia, Times, "Times New Roman", serif;*/
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 .container-fluid {
   max-width: 768px;
 }
@@ -34,7 +38,7 @@ input[type="checkbox"]{
   margin-right: 8px; 
 }
 .states .input-container {
-  padding-left: 4rem;
+  padding-left: 3.5rem;
   margin-right: 1rem;
   font-size: 1.5rem;
 }
@@ -50,14 +54,14 @@ input[type="checkbox"]{
   margin: auto;
 }
 .input-container span.radio::before {
-  left: -2em;
+  left: -1.5em;
   width: 1em;
   height: 1em;
   border: 1px solid #666;
   border-radius: 1em;
 }
 .input-container span.radio::after {
-  left: -2em;
+  left: -1.5em;
   width: 1em;
   height: 1em;
   border: 1px solid #666;
@@ -187,7 +191,11 @@ div.tooltip {
 .subject-chart-area .heading {
   font-weight: bold;
   color: #013878;
+  font-size: 1.4rem;
+}
+.subject-chart-area li {
   font-size: 1.2rem;
+  padding: 2px;
 }
 .opponent-state {
   display: none;
@@ -212,4 +220,11 @@ div.tooltip {
 }
 .subject-chart-area {
   margin-top: 45px;
+  margin-bottom: 45px;
+}
+.subject-chart-area p {
+  font-family: Georgia, Times, "Times New Roman", serif;
+}
+footer img {
+  float: right;
 }
