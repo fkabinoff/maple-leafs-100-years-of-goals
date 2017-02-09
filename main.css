@@ -121,10 +121,10 @@ input[type="checkbox"]:checked + label[for="sh-checkbox"] span.checkbox::after {
     background: #52cc52;
 }
 .dropdown li.A {
-    background: #ccc;
+    background: #eee;
 }
 .dropdown li.X, .dropdown li.XS {
-    background: #777;
+    background: #ccc;
 }
 .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
     opacity: 0.5;

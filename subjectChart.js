@@ -11,7 +11,7 @@ class SubjectChart {
             .style("visibility", "hidden")
             .style("width", "100%")
             .style("height", "100%")
-            .style("background", "white")
+            .style("background", "#eee")
             .style("position", "absolute")
             .style("top", "0")
             .style("left", "0")
@@ -19,7 +19,9 @@ class SubjectChart {
             .style("justify-content", "center")
             .style("align-items", "center")
             .style("z-index", "2")
-            .html("No data");
+            .style("font-size", "1.4em")
+            .style("font-family", "'Helvetica Neue', Helvetica, Arial, sans-serif")
+            .html("No Data Available");
         this.tooltip = d3.select(this.cube.element).append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
