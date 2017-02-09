@@ -11,6 +11,7 @@ body, text {
 text {
   /*font-family: Georgia, Times, "Times New Roman", serif;*/
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  cursor: default;
 }
 .container-fluid {
   max-width: 768px;

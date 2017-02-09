@@ -64,7 +64,7 @@ class SubjectChart {
         this.svg.yAxis.call(d3.axisLeft(this.y).tickSize(0).tickPadding(0));
 
         this.svg.yAxis.selectAll(".tick")
-            .on("click", (d,i) => { this.toggleSelection(this.matrix[i]); });
+            .on("click", (d,i) => { this.cube.object.selectHyperCubeValues("/qHyperCubeDef", 0, [this.matrix[i][0].qElemNumber], true); });
 
         this.svg.yAxis.selectAll(".tick text")
             .attr("text-anchor", "start")
