@@ -84,6 +84,7 @@ class SeasonChart {
     }
 
     draw(layout) {
+        this.tooltip.style("opacity", 0);
         let matrix = layout.qHyperCube.qDataPages[0].qMatrix;
         this.rows = matrix.length;
 

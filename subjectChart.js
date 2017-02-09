@@ -40,6 +40,7 @@ class SubjectChart {
     }
 
     draw(layout) {
+        this.tooltip.style("opacity", 0);
         this.matrix = layout.qHyperCube.qDataPages[0].qMatrix;
         this.rows = this.matrix.length;
 
