@@ -22,7 +22,7 @@ class SubjectChart {
             .style("font-size", "1.4em")
             .style("font-family", "'Helvetica Neue', Helvetica, Arial, sans-serif")
             .html("No Data Available");
-        this.tooltip = d3.select(this.cube.element).append("div")
+        this.tooltip = d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
         this.svg = d3.select(this.cube.element).append("svg")
@@ -96,17 +96,17 @@ class SubjectChart {
             })
             .on("mouseover", (d, i, j) => {
                 let category = d3.select(j[i].parentNode).attr("category");
-                let html = `<div>${d[0].qText}</div><div>${label}</div><div>${d[1].qNum}</div>`;
+                let html = `<div style="font-weight: bold">${d[0].qText}</div><div style="font-style: italic">${label}</div><div style="font-size: 14px">${d[1].qNum}</div>`;
                 this.tooltip.html(html)
-                    .style("left", `${Math.min(d3.event.pageX - $(this.cube.element).offset().left, window.innerWidth - $(this.cube.element).offset().left -200)}px`)
-                    .style("top", `${d3.event.pageY - $(this.cube.element).offset().top - 60}px`)
+                    .style("left", `${Math.min(d3.event.pageX - this.tooltip.node().getBoundingClientRect().width/2, window.innerWidth - this.tooltip.node().getBoundingClientRect().width)}px`)
+                    .style("top", `${d3.event.pageY - this.tooltip.node().getBoundingClientRect().height - 8}px`)
                 this.tooltip.transition()
                     .style("opacity", 1);
             })
             .on("mousemove", (d) => {
                 this.tooltip
-                    .style("left", `${Math.min(d3.event.pageX - $(this.cube.element).offset().left, window.innerWidth - $(this.cube.element).offset().left -200)}px`)
-                    .style("top", `${d3.event.pageY - $(this.cube.element).offset().top - 60}px`);
+                    .style("left", `${Math.min(d3.event.pageX - this.tooltip.node().getBoundingClientRect().width/2, window.innerWidth - this.tooltip.node().getBoundingClientRect().width)}px`)
+                    .style("top", `${d3.event.pageY - this.tooltip.node().getBoundingClientRect().height - 8}px`);
             })
             .on("mouseout", (d) => {
                 this.tooltip.transition()
@@ -129,14 +129,35 @@ class SubjectChart {
             .text((d) => { return d[1].qNum });
         values
             .enter().append("text")
+            .on("click", (d) => {
+                this.cube.object.selectHyperCubeValues("/qHyperCubeDef", 0, [d[0].qElemNumber], true);
+                this.tooltip.style("opacity", 0);
+            })
+            .on("mouseover", (d, i, j) => {
+                let category = d3.select(j[i].parentNode).attr("category");
+                let html = `<div style="font-weight: bold">${d[0].qText}</div><div style="font-style: italic">${label}</div><div style="font-size: 14px">${d[1].qNum}</div>`;
+                this.tooltip.html(html)
+                    .style("left", `${Math.min(d3.event.pageX - this.tooltip.node().getBoundingClientRect().width/2, window.innerWidth - this.tooltip.node().getBoundingClientRect().width)}px`)
+                    .style("top", `${d3.event.pageY - this.tooltip.node().getBoundingClientRect().height - 8}px`)
+                this.tooltip.transition()
+                    .style("opacity", 1);
+            })
+            .on("mousemove", (d) => {
+                this.tooltip
+                    .style("left", `${Math.min(d3.event.pageX - this.tooltip.node().getBoundingClientRect().width/2, window.innerWidth - this.tooltip.node().getBoundingClientRect().width)}px`)
+                    .style("top", `${d3.event.pageY - this.tooltip.node().getBoundingClientRect().height - 8}px`);
+            })
+            .on("mouseout", (d) => {
+                this.tooltip.transition()
+                    .style("opacity", 0);
+            })
             .attr("class", "value")
             .attr("fill", "white")
             .attr("font-size", "10")
             .attr("text-anchor", "end")
             .attr("x", (d) => { return this.x(d[1].qNum) - 2 })
             .attr("y", (d) => { return this.y(d[0].qText) + this.y.bandwidth()*(3/4) })
-            .text((d) => { return d[1].qNum })
-            .on("click", (d) => { this.toggleSelection(d) });
+            .text((d) => { return d[1].qNum });
         values.exit().remove();
     }
 

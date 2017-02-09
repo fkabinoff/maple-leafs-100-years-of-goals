@@ -161,13 +161,37 @@ input[type="checkbox"]:checked + label[for="sh-checkbox"] span.checkbox::after {
 div.tooltip {
   position: absolute;
   padding: 8px;
-  width: 200px;
   height: auto;
-  background: #ccc;
+  background: #fff;
   border-radius: 8px;
+  border: 2px solid #ccc;
   pointer-events: none;
   font-size: 11px;
   text-align: center;
+}
+div.tooltip:before{
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+    border-top: 8px solid #ccc;
+    left: calc(50% - 8px);
+    bottom: -8px;
+}
+div.tooltip:after{
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+    border-top: 6px solid #fff;
+    left: calc(50% - 6px);
+    bottom: -5px;
 }
 
 #season-chart {

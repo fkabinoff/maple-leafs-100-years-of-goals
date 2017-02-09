@@ -22,7 +22,7 @@ class SeasonChart {
             .style("font-size", "1.4em")
             .style("font-family", "'Helvetica Neue', Helvetica, Arial, sans-serif")
             .html("No Data Available");
-        this.tooltip = d3.select(this.cube.element).append("div")
+        this.tooltip = d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
         this.svg = d3.select(this.cube.element).append("svg")
@@ -135,17 +135,17 @@ class SeasonChart {
             })
             .on("mouseover", (d, i, j) => {
                 let category = d3.select(j[i].parentNode).attr("category");
-                let html = `<div>${d.data["year"].qText}</div><div>${category}</div><div>${d[1]-d[0]}</div>`;
+                let html = `<div style="font-weight: bold">${d.data["year"].qText}</div><div style="font-style: italic">${category}</div><div style="font-size: 14px">${d[1]-d[0]}</div>`;
                 this.tooltip.html(html)
-                    .style("left", `${Math.min(d3.event.pageX - $(this.cube.element).offset().left, window.innerWidth - $(this.cube.element).offset().left -200)}px`)
-                    .style("top", `${d3.event.pageY - $(this.cube.element).offset().top - 60}px`)
+                    .style("left", `${Math.min(d3.event.pageX - this.tooltip.node().getBoundingClientRect().width/2, window.innerWidth - this.tooltip.node().getBoundingClientRect().width)}px`)
+                    .style("top", `${d3.event.pageY - this.tooltip.node().getBoundingClientRect().height - 8}px`)
                 this.tooltip.transition()
                     .style("opacity", 1);
             })
             .on("mousemove", (d) => {
                 this.tooltip
-                    .style("left", `${Math.min(d3.event.pageX - $(this.cube.element).offset().left, window.innerWidth - $(this.cube.element).offset().left -200)}px`)
-                    .style("top", `${d3.event.pageY - $(this.cube.element).offset().top - 60}px`);
+                    .style("left", `${Math.min(d3.event.pageX - this.tooltip.node().getBoundingClientRect().width/2, window.innerWidth - this.tooltip.node().getBoundingClientRect().width)}px`)
+                    .style("top", `${d3.event.pageY - this.tooltip.node().getBoundingClientRect().height - 8}px`);
             })
             .on("mouseout", (d) => {
                 this.tooltip.transition()
