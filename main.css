@@ -221,8 +221,16 @@ div.tooltip:after{
   font-size: 1.2rem;
   padding: 2px;
 }
-.opponent-state {
+.opponent-state, .data-warning {
   display: none;
+}
+.data-warning {
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  text-align: center;
+  margin-top: 15px;
+  font-family: arial;
 }
 
 /* layout */

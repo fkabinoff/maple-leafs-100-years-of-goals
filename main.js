@@ -26,6 +26,7 @@ qObjects.then((qObjects) => {
 //Checkboxes
 qlikapp.then((qlikapp) => {
   $("input[type=checkbox][id=total-checkbox]").change((event) => {
+    $(".data-warning").hide();
     $("input[type=checkbox][class='type checkbox']").prop('checked', false);
     qlikapp.getVariableByName("vTotal").then((variable) => {
       variable.setNumValue(1);
@@ -44,9 +45,11 @@ qlikapp.then((qlikapp) => {
     $("input[type=checkbox][id='total-checkbox']").prop('checked', false);
     qlikapp.getVariableByName("vTotal").then((variable) => {
       if(!$("#ev-checkbox").prop("checked") && !$("#pp-checkbox").prop("checked") && !$("#sh-checkbox").prop("checked")) {
+        $(".data-warning").hide();
         $("input[type=checkbox][id='total-checkbox']").prop('checked', true);
         variable.setNumValue(1);
       } else {
+        $(".data-warning").show();
         variable.setNumValue(0);
       }
     });
