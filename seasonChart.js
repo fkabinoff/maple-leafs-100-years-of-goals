@@ -98,7 +98,7 @@ class SeasonChart {
         let labels = layout.qHyperCube.qMeasureInfo.map((measure) => { return measure.qFallbackTitle });
         let maxGoals = matrix[0][3] ? Math.max(Math.max(...matrix.map((year) => { return year[1].qNum + year[2].qNum })), Math.max(...matrix.map((year) => { return year[3].qNum + year[4].qNum + year[5].qNum + year[6].qNum + year[7].qNum + year[8].qNum }))) : Math.max(...matrix.map((year) => { return year[1].qNum + year[2].qNum }));
 
-        this.x = d3.scaleBand().range([0, Math.min(this.width, this.rows*50)]).paddingInner(0.25).paddingOuter(0);
+        this.x = d3.scaleBand().range([0, Math.min(this.width, this.rows*50)]).paddingInner(0).paddingOuter(0);
         this.y = d3.scaleLinear().range([this.height, 0]);
         this.x.domain(matrix.map(function(d){ return d[0].qText; }));
         this.y.domain([0, maxGoals]);
@@ -154,7 +154,7 @@ class SeasonChart {
                     return labels[i];
                 })
                 .attr("fill", (d) => { return colorPalette[d.key]; })
-                .attr("stroke", (d) => { return colorPalette[d.key]; })
+                .attr("stroke", (d) => { return "#fff" })
                 .attr("mask", (d) => { if(d.key.indexOf("Post Season") === -1 ) { return null; } else { return `url(#${this.$element.attr("id")}-mask-stripe)`; } });
         this.layers.exit().remove();
 
@@ -219,7 +219,7 @@ class SeasonChart {
 
         this.legend.attr("transform", "translate(" + (this.$element.width() - 190) + "," + 0 + ")");
 
-        this.x.range([0, Math.min(this.width, this.rows*50)]).paddingInner(0.25).paddingOuter(0);
+        this.x.range([0, Math.min(this.width, this.rows*50)]).paddingInner(0).paddingOuter(0);
         this.y.range([this.height, 0]);
         
         let findAxisIndicies = (start, end, max) => {
