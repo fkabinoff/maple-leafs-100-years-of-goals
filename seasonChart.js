@@ -84,7 +84,6 @@ class SeasonChart {
     }
 
     draw(layout) {
-        this.tooltip.style("opacity", 0);
         let matrix = layout.qHyperCube.qDataPages[0].qMatrix;
         this.rows = matrix.length;
 
@@ -175,7 +174,7 @@ class SeasonChart {
         this.items.enter().append("rect")
             .on("click", (d) => {
                 this.cube.object.selectHyperCubeValues("/qHyperCubeDef", 0, [d.data["year"].qElemNumber], true);
-                this.tooltip.style("opacity", 0);
+                this.tooltip.transition().style("opacity", 0);
             })
             .on("mouseover", (d, i, j) => {
                 let category = d3.select(j[i].parentNode).attr("category");

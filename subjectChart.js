@@ -40,7 +40,6 @@ class SubjectChart {
     }
 
     draw(layout) {
-        this.tooltip.style("opacity", 0);
         this.matrix = layout.qHyperCube.qDataPages[0].qMatrix;
         this.rows = this.matrix.length;
 
@@ -93,7 +92,7 @@ class SubjectChart {
             .enter().append("rect")
             .on("click", (d) => {
                 this.cube.object.selectHyperCubeValues("/qHyperCubeDef", 0, [d[0].qElemNumber], true);
-                this.tooltip.style("opacity", 0);
+                this.tooltip.transition().style("opacity", 0);
             })
             .on("mouseover", (d, i, j) => {
                 let category = d3.select(j[i].parentNode).attr("category");
