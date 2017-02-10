@@ -190,7 +190,7 @@ class SeasonChart {
                     .style("left", `${Math.min(d3.event.pageX - this.tooltip.node().getBoundingClientRect().width/2, window.innerWidth - this.tooltip.node().getBoundingClientRect().width)}px`)
                     .style("top", `${d3.event.pageY - this.tooltip.node().getBoundingClientRect().height - 8}px`);
             })
-            .on("mouseout", (d) => {
+            .on("mouseout touchend", (d) => {
                 this.tooltip.transition()
                     .style("opacity", 0);
             })
