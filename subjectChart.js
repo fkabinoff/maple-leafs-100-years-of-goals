@@ -94,7 +94,7 @@ class SubjectChart {
                 this.cube.object.selectHyperCubeValues("/qHyperCubeDef", 0, [d[0].qElemNumber], true);
                 this.tooltip.transition().style("opacity", 0);
             })
-            .on("mouseover", (d, i, j) => {
+            .on("pep-pointerover", (d, i, j) => {
                 let category = d3.select(j[i].parentNode).attr("category");
                 let html = `<div style="font-weight: bold">${d[0].qText}</div><div style="font-style: italic">${label}</div><div style="font-size: 14px">${d[1].qNum}</div>`;
                 this.tooltip.html(html)
@@ -103,15 +103,16 @@ class SubjectChart {
                 this.tooltip.transition()
                     .style("opacity", 1);
             })
-            .on("mousemove", (d) => {
+            .on("pep-pointermove", (d) => {
                 this.tooltip
                     .style("left", `${Math.min(d3.event.pageX - this.tooltip.node().getBoundingClientRect().width/2, window.innerWidth - this.tooltip.node().getBoundingClientRect().width)}px`)
                     .style("top", `${d3.event.pageY - this.tooltip.node().getBoundingClientRect().height - 8}px`);
             })
-            .on("mouseout touchend", (d) => {
+            .on("pep-pointerout", (d) => {
                 this.tooltip.transition()
                     .style("opacity", 0);
             })
+            .attr("touch-action", "none")
             .attr("class", "bar")
             .attr("fill", colorPalette[label])
             .attr("x", 0)
@@ -133,7 +134,7 @@ class SubjectChart {
                 this.cube.object.selectHyperCubeValues("/qHyperCubeDef", 0, [d[0].qElemNumber], true);
                 this.tooltip.style("opacity", 0);
             })
-            .on("mouseover", (d, i, j) => {
+            .on("pep-pointerover", (d, i, j) => {
                 let category = d3.select(j[i].parentNode).attr("category");
                 let html = `<div style="font-weight: bold">${d[0].qText}</div><div style="font-style: italic">${label}</div><div style="font-size: 14px">${d[1].qNum}</div>`;
                 this.tooltip.html(html)
@@ -142,15 +143,16 @@ class SubjectChart {
                 this.tooltip.transition()
                     .style("opacity", 1);
             })
-            .on("mousemove", (d) => {
+            .on("pep-pointermove", (d) => {
                 this.tooltip
                     .style("left", `${Math.min(d3.event.pageX - this.tooltip.node().getBoundingClientRect().width/2, window.innerWidth - this.tooltip.node().getBoundingClientRect().width)}px`)
                     .style("top", `${d3.event.pageY - this.tooltip.node().getBoundingClientRect().height - 8}px`);
             })
-            .on("mouseout", (d) => {
+            .on("pep-pointerout", (d) => {
                 this.tooltip.transition()
                     .style("opacity", 0);
             })
+            .attr("touch-action", "none")
             .attr("class", "value")
             .attr("fill", "white")
             .attr("font-size", "10")

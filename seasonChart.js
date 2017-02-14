@@ -176,7 +176,7 @@ class SeasonChart {
                 this.cube.object.selectHyperCubeValues("/qHyperCubeDef", 0, [d.data["year"].qElemNumber], true);
                 this.tooltip.transition().style("opacity", 0);
             })
-            .on("mouseover", (d, i, j) => {
+            .on("pep-pointerover", (d, i, j) => {
                 let category = d3.select(j[i].parentNode).attr("category");
                 let html = `<div style="font-weight: bold">${d.data["year"].qText}</div><div style="font-style: italic">${category}</div><div style="font-size: 14px">${d[1]-d[0]}</div>`;
                 this.tooltip.html(html)
@@ -185,15 +185,16 @@ class SeasonChart {
                 this.tooltip.transition()
                     .style("opacity", 1);
             })
-            .on("mousemove", (d) => {
+            .on("pep-pointermove", (d) => {
                 this.tooltip
                     .style("left", `${Math.min(d3.event.pageX - this.tooltip.node().getBoundingClientRect().width/2, window.innerWidth - this.tooltip.node().getBoundingClientRect().width)}px`)
                     .style("top", `${d3.event.pageY - this.tooltip.node().getBoundingClientRect().height - 8}px`);
             })
-            .on("mouseout touchend", (d) => {
+            .on("pep-pointerout", (d) => {
                 this.tooltip.transition()
                     .style("opacity", 0);
             })
+            .attr("touch-action", "none")
             .attr("x", (d) => { return this.x(d.data["year"].qText); })
             .attr("y", this.height)
             .attr("width", this.x.bandwidth())
