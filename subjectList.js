@@ -15,7 +15,7 @@ subjectList.init = () => {
       qListObjectDef: {
         qStateName: "PlayerState",
         qDef: {
-          qFieldDefs: ["[Player Name]"],
+          qFieldDefs: ["[Player Name 2]"],
           qFieldLabels: ["Players"]
         },
         qAutoSortByState: {
@@ -50,7 +50,7 @@ subjectList.changeState = (state) => {
       {
           qOp: "replace",
           qPath: "/qListObjectDef/qDef/qFieldDefs/0",
-          qValue: JSON.stringify("[Player Name]")
+          qValue: JSON.stringify("[Player Name 2]")
       },
       {
           qOp: "replace",
