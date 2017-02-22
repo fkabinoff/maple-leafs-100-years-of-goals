@@ -4,6 +4,7 @@ import Filter from "./filter";
 let decadeList = {};
 
 decadeList.element = "#decade-filter";
+decadeList.toggle = true;
 
 decadeList.init = () => {
   return qlikapp.then((app) => {

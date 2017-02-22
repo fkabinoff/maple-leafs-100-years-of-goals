@@ -4,6 +4,7 @@ import Filter from "./filter";
 let seasonList = {};
 
 seasonList.element = "#season-filter";
+seasonList.toggle = true;
 
 seasonList.init = () => {
   return qlikapp.then((app) => {

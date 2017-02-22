@@ -2,6 +2,7 @@ class Filter {
     constructor(list) {
         this.object = list.object;
         this.$element = $(list.element);
+        this.toggle = list.toggle;
         this.template =
             `<div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" aria-haspopup="true" aria-expanded="true" (click)="open()">
@@ -59,7 +60,11 @@ class Filter {
     }
 
     toggleSelection(row) {
-        this.object.selectListObjectValues("/qListObjectDef", [row[0].qElemNumber], true );
+        if (row[0].qState === "S") {
+            this.object.selectListObjectValues("/qListObjectDef", [row[0].qElemNumber], true );
+        } else {
+            this.object.selectListObjectValues("/qListObjectDef", [row[0].qElemNumber], this.toggle );
+        }
     }
 
     open() {
