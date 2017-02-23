@@ -9,7 +9,7 @@ expressions.init = () => {
         qType: 'expressions',
       },
       totalGoals: {
-        qStringExpression: {
+        qValueExpression: {
           qExpr: "Sum({PlayerState} Goals) + Sum({PlayerState} [Post-season Goals])"
         }
       },
@@ -32,7 +32,7 @@ expressions.init = () => {
   }).then((object) => {
     expressions.object = object;
     const update = () => object.getLayout().then((layout) => {
-      
+      $(".total-goals-kpi").html(layout.totalGoals.toLocaleString());
     });
     object.on('changed', update);
     update();
@@ -44,7 +44,7 @@ expressions.changeState = (state) => {
     return expressions.object.applyPatches([
       {
           qOp: "replace",
-          qPath: "/totalGoals/qStringExpression/qExpr",
+          qPath: "/totalGoals/qValueExpression/qExpr",
           qValue: JSON.stringify("Sum({PlayerState} Goals) + Sum({PlayerState} [Post-season Goals])")
       }
     ]);
@@ -52,8 +52,8 @@ expressions.changeState = (state) => {
     return expressions.object.applyPatches([
       {
           qOp: "replace",
-          qPath: "/totalGoals/qStringExpression/qExpr",
-          qValue: JSON.stringify("Sum({OpponentState} Goals) + Sum({OpponentState} [Post-season Goals])")
+          qPath: "/totalGoals/qValueExpression/qExpr",
+          qValue: JSON.stringify("Sum({OpponentState<[Regular/Post Season]={'Regular season'}>} [Opponent Goals]) + Sum({OpponentState<[Regular/Post Season]={'Post-season'}>} [Opponent Goals])")
       }
     ]);
   }
