@@ -113,30 +113,34 @@
       </div>
     </div>
 
-    <div class="row subject-chart-area">
-      <div class="col-sm-6">
-        <div class="player-state">
-          <div class="dropdown">
-            <div class="dropdown-toggle heading" id="player-measure-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="label">Player Total Goals</span> |
+    <div class="subject-chart-area">
+      <div class="subject-chart-area-heading row">
+        <div class="col">
+          <div class="player-state">
+            <div class="dropdown">
+              <div class="dropdown-toggle title" id="player-measure-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="label">Player Total Goals</span> |
+              </div>
+              <ul class="dropdown-menu" aria-labelledby="player-measure-dropdown">
+                <li value="Total">Player Total Goals</li>
+                <li value="EV">Player Even Strength Goals</li>
+                <li value="PP">Player Power Play Goals</li>
+                <li value="SH">Player Short Handed Goals</li>
+                <li value="GW">Player Game Winning Goals</li>
+              </ul>
             </div>
-            <ul class="dropdown-menu" aria-labelledby="player-measure-dropdown">
-              <li value="Total">Player Total Goals</li>
-              <li value="EV">Player Even Strength Goals</li>
-              <li value="PP">Player Power Play Goals</li>
-              <li value="SH">Player Short Handed Goals</li>
-              <li value="GW">Player Game Winning Goals</li>
-            </ul>
+            <p>The bar chart lists the Maple Leafs players sorted by total number of goals</p>
           </div>
-          <p>The bar chart lists the Maple Leafs players sorted by total number of goals</p>
-        </div>
-        <div class="opponent-state">
-          <div class="heading">Opponent Allowed Goals</div>
-          <p>The bar chart lists opposing teams sorted by total goals scored by Maple Leafs</p>
+          <div class="opponent-state">
+            <div class="title">Opponent Allowed Goals</div>
+            <p>The bar chart lists opposing teams sorted by total goals scored by Maple Leafs</p>
+          </div>
         </div>
       </div>
-      <div class="col-sm-6">
-        <div id="subject-chart"></div>
+      <div class="row">
+        <div class="col">
+          <div id="subject-chart"></div>
+        </div>
       </div>
     </div>
 

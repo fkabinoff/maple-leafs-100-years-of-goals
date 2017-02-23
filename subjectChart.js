@@ -56,7 +56,7 @@ class SubjectChart {
         this.svg.attr("height", `${this.height}px`);
 
         this.x = d3.scaleLinear().range([20, this.width]);
-        this.y = d3.scaleBand().range([0, this.height]).paddingInner(0.3).paddingOuter(0);
+        this.y = d3.scaleBand().range([0, this.height]).paddingInner(0.25).paddingOuter(0);
         this.x.domain([0, layout.qHyperCube.qMeasureInfo[0].qMax]);
         this.y.domain(this.matrix.map((d) => { return d[0].qText; }));
 
