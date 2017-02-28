@@ -108,7 +108,7 @@ seasonCube.changeState = (state) => {
       {
         qOp: "replace",
         qPath: "/qHyperCubeDef/qMeasures",
-        qValue: JSON.stringify([{qDef:{qDef:"Sum({<[Regular/Post Season]={'Regular season'}>} [Opponent Goals])",qLabel:"Regular Season Goals"}},{qDef:{qDef:"Sum({<[Regular/Post Season]={'Post-season'}>} [Opponent Goals])",qLabel:"Post Season Goals"}}])
+        qValue: JSON.stringify([{qDef:{qDef:"If(GetSelectedCount([Regular/Post Season])=1 and GetFieldSelections([Regular/Post Season])='Post-season', 0, Sum({<[Regular/Post Season]={'Regular season'}>} [Opponent Goals]))",qLabel:"Regular Season Goals"}},{qDef:{qDef:"If(GetSelectedCount([Regular/Post Season])=1 and GetFieldSelections([Regular/Post Season])='Regular season', 0, Sum({<[Regular/Post Season]={'Post-season'}>} [Opponent Goals]))",qLabel:"Post Season Goals"}}])
       }
     ]);
   }

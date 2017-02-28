@@ -91,7 +91,7 @@ subjectCube.changeState = (state) => {
       {
         qOp: "replace",
         qPath: "/qHyperCubeDef/qMeasures/0/qDef/qDef",
-        qValue: JSON.stringify("Sum({<[Regular/Post Season]={'Regular season'}>} [Opponent Goals]) + Sum({<[Regular/Post Season]={'Post-season'}>} [Opponent Goals])")
+        qValue: JSON.stringify("Sum([Opponent Goals])")
       },
       {
         qOp: "replace",
