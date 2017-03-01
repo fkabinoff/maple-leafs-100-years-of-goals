@@ -45,7 +45,7 @@ class SubjectChart {
             .attr("height", `2000px`);
         this.svg.g = this.svg.append("g")
             .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
-        this.svg.xAxis = d3.select(this.$axis[0]).append("svg").attr("width", `${this.$chart.width()}px`).attr("height", `${this.$chart.height() + 10}px`).append("g").attr("class", "x axis").attr("transform", `translate(${this.margin.left}, ${this.$chart.height() + 0})`);
+        this.svg.xAxis = d3.select(this.$axis[0]).append("svg").attr("id", "axis-svg").attr("width", `${this.$chart.width()}px`).attr("height", `${this.$chart.height() + 10}px`).append("g").attr("class", "x axis").attr("transform", `translate(${this.margin.left}, ${this.$chart.height() + 0})`);
         this.svg.yAxis = this.svg.g.append("g").attr("class", "y axis");
         this.svg.defs = this.svg.append("defs");
         this.svg.defs.append("pattern")
@@ -65,7 +65,7 @@ class SubjectChart {
             .attr("width", "100%")
             .attr("height", "100%")
             .attr("fill", `url(#${this.$element.attr("id")}-pattern-stripe)`);
-        this.legend = d3.select(this.$legend[0]).append("svg").attr("width", `${this.$legend.width()}px`).attr("height", `${this.$legend.height()}px`).append("g")
+        this.legend = d3.select(this.$legend[0]).append("svg").attr("id", "legend-svg").attr("width", `${this.$legend.width()}px`).attr("height", `${this.$legend.height()}px`).append("g")
             .attr("transform", "translate(" + (this.$legend.width() - 190) + "," + 0 + ")");
         this.legend.append("rect")
             .attr("x", 0)
@@ -102,8 +102,6 @@ class SubjectChart {
         this.matrix = layout.qHyperCube.qDataPages[0].qMatrix;
         this.rows = this.matrix.length;
 
-        let labels = layout.qHyperCube.qMeasureInfo.map((measure) => { return measure.qFallbackTitle }).slice(0,2);
-
         if (!this.matrix.length) {
             this.errorMsg.style("visibility", "visible");
             return;
@@ -114,16 +112,29 @@ class SubjectChart {
         this.height = 20 * this.matrix.length;
         this.svg.attr("height", `${this.height}px`);
 
+        let labels = layout.qHyperCube.qMeasureInfo.map((measure) => { return measure.qFallbackTitle }).slice(0,2);
+
         this.x = d3.scaleLinear().range([0, this.width]);
         this.y = d3.scaleBand().range([0, this.height]).paddingInner(0.25).paddingOuter(0);
         this.x.domain([0, layout.qHyperCube.qMeasureInfo[2].qMax]);
         this.y.domain(this.matrix.map((d) => { return d[0].qText; }));
 
-        this.svg.xAxis.call(d3.axisBottom(this.x).tickSizeOuter(0).tickSizeInner(-this.$chart.height()));
+        this.svg.xAxis.call(d3.axisBottom(this.x).ticks(this.$axis.width()/100).tickSizeOuter(0).tickSizeInner(-this.$chart.height()));
         this.svg.yAxis.call(d3.axisLeft(this.y).tickSize(0).tickPadding(0));
 
-        // this.svg.yAxis.selectAll(".tick")
-        //     .on("click", (d,i) => { this.cube.object.selectHyperCubeValues("/qHyperCubeDef", 0, [this.matrix[i][0].qElemNumber], true); });
+        this.svg.yAxis.selectAll(".tick")
+            .on("click", (d,i) => {
+                if (this.cube.currentState === "PlayerState") {
+                    let selection = this.matrix[i][0].qText.split(" ").reverse().join(", ");
+                    qlikapp.then((app) => {
+                        app.getField("[Player Name 2]", "PlayerState").then((field) => {
+                            field.toggleSelect(selection);
+                        });
+                    });
+                } else {
+                    this.cube.object.selectHyperCubeValues("/qHyperCubeDef", 0, [this.matrix[i][0].qElemNumber], true);
+                }
+            });
 
         this.svg.yAxis.selectAll(".tick text")
             .attr("text-anchor", "start")
@@ -188,7 +199,7 @@ class SubjectChart {
                     let selection = d.data["player"].qText.split(" ").reverse().join(", ");
                     qlikapp.then((app) => {
                         app.getField("[Player Name 2]", "PlayerState").then((field) => {
-                            field.select(selection);
+                            field.toggleSelect(selection);
                         });
                     });
                 } else {
@@ -224,102 +235,25 @@ class SubjectChart {
             
         this.items.exit().remove();
 
-        //old way
-        // let bars = this.svg.g.selectAll(".bar")
-        //     .data(this.matrix);   
-        // bars
-        //     .attr("fill", colorPalette[label])
-        //     .attr("x", 0)
-        //     .attr("y", (d) => { return this.y(d[0].qText) })
-        //     .attr("height", this.y.bandwidth())
-        //     .transition()
-        //     .attr("width", (d) => { return this.x(d[1].qNum) });
-        // bars
-        //     .enter().append("rect")
-        //     .on("click", (d) => {
-        //         this.cube.object.selectHyperCubeValues("/qHyperCubeDef", 0, [d[0].qElemNumber], true);
-        //         this.tooltip.transition().style("opacity", 0);
-        //     })
-        //     .on("pep-pointerover", (d, i, j) => {
-        //         let category = d3.select(j[i].parentNode).attr("category");
-        //         let html = `<div style="font-weight: bold">${d[0].qText}</div><div style="font-style: italic">${label}</div><div style="font-size: 14px">${d[1].qNum}</div>`;
-        //         this.tooltip.html(html)
-        //             .style("left", `${Math.min(d3.event.pageX - this.tooltip.node().getBoundingClientRect().width/2, window.innerWidth - this.tooltip.node().getBoundingClientRect().width)}px`)
-        //             .style("top", `${d3.event.pageY - this.tooltip.node().getBoundingClientRect().height - 8}px`)
-        //         this.tooltip.transition()
-        //             .style("opacity", 1);
-        //     })
-        //     .on("pep-pointermove", (d) => {
-        //         this.tooltip
-        //             .style("left", `${Math.min(d3.event.pageX - this.tooltip.node().getBoundingClientRect().width/2, window.innerWidth - this.tooltip.node().getBoundingClientRect().width)}px`)
-        //             .style("top", `${d3.event.pageY - this.tooltip.node().getBoundingClientRect().height - 8}px`);
-        //     })
-        //     .on("pep-pointerout", (d) => {
-        //         this.tooltip.transition()
-        //             .style("opacity", 0);
-        //     })
-        //     .attr("touch-action", "none")
-        //     .attr("class", "bar")
-        //     .attr("fill", colorPalette[label])
-        //     .attr("x", 0)
-        //     .attr("y", (d) => { return this.y(d[0].qText) })
-        //     .attr("height", this.y.bandwidth())
-        //     .attr("width", 0)
-        //     .transition()
-        //     .attr("width", (d) => { return this.x(d[1].qNum) })
-        // bars.exit().remove();
-        // let values = this.svg.g.selectAll(".value")
-        //     .data(this.matrix);
-        // values
-        //     .attr("x", (d) => { return this.x(d[1].qNum) - 2 })
-        //     .attr("y", (d) => { return this.y(d[0].qText) + this.y.bandwidth()*(3/4) })
-        //     .text((d) => { return d[1].qNum });
-        // values
-        //     .enter().append("text")
-        //     .on("click", (d) => {
-        //         this.cube.object.selectHyperCubeValues("/qHyperCubeDef", 0, [d[0].qElemNumber], true);
-        //         this.tooltip.style("opacity", 0);
-        //     })
-        //     .on("pep-pointerover", (d, i, j) => {
-        //         let category = d3.select(j[i].parentNode).attr("category");
-        //         let html = `<div style="font-weight: bold">${d[0].qText}</div><div style="font-style: italic">${label}</div><div style="font-size: 14px">${d[1].qNum}</div>`;
-        //         this.tooltip.html(html)
-        //             .style("left", `${Math.min(d3.event.pageX - this.tooltip.node().getBoundingClientRect().width/2, window.innerWidth - this.tooltip.node().getBoundingClientRect().width)}px`)
-        //             .style("top", `${d3.event.pageY - this.tooltip.node().getBoundingClientRect().height - 8}px`)
-        //         this.tooltip.transition()
-        //             .style("opacity", 1);
-        //     })
-        //     .on("pep-pointermove", (d) => {
-        //         this.tooltip
-        //             .style("left", `${Math.min(d3.event.pageX - this.tooltip.node().getBoundingClientRect().width/2, window.innerWidth - this.tooltip.node().getBoundingClientRect().width)}px`)
-        //             .style("top", `${d3.event.pageY - this.tooltip.node().getBoundingClientRect().height - 8}px`);
-        //     })
-        //     .on("pep-pointerout", (d) => {
-        //         this.tooltip.transition()
-        //             .style("opacity", 0);
-        //     })
-        //     .attr("touch-action", "none")
-        //     .attr("class", "value")
-        //     .attr("fill", "white")
-        //     .attr("font-size", "10")
-        //     .attr("text-anchor", "end")
-        //     .attr("x", (d) => { return this.x(d[1].qNum) - 2 })
-        //     .attr("y", (d) => { return this.y(d[0].qText) + this.y.bandwidth()*(3/4) })
-        //     .text((d) => { return d[1].qNum });
-        // values.exit().remove();
-
     }
 
     resize() {
         this.width = this.$element.width() - this.margin.left - this.margin.right;
         this.svg.attr("width", `${this.$element.width()}px`);
+        d3.select("#axis-svg").attr("width", `${this.$chart.width()}px`);
+        d3.select("#legend-svg").attr("width", `${this.$legend.width()}px`);
+        d3.select("#legend-svg g").attr("transform", "translate(" + (this.$legend.width() - 190) + "," + 0 + ")");
+
         this.x.range([10, this.width]);
-        let bars = this.svg.g.selectAll(".bar")
-            .data(this.matrix);
-        bars.attr("width", (d) => { return this.x(d[1].qNum) });
-        let values = this.svg.g.selectAll(".value")
-            .data(this.matrix);
-        values.attr("x", (d) => { return this.x(d[1].qNum) - 2 });
+        this.svg.xAxis.call(d3.axisBottom(this.x).ticks(this.$axis.width()/100).tickSizeOuter(0).tickSizeInner(-this.$chart.height()));
+
+        this.items = this.layers.selectAll("rect")
+            .data((d) => { return d; });
+
+        this.items
+            .attr("x", (d) => { return this.x(d[0]); })
+            .attr("width", (d) => { return this.x(d[1]) - this.x(d[0]); });
+        
     }
 }
 

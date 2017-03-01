@@ -182,7 +182,12 @@ subjectCube.changeMeasure = (measure) => {
       qOp: "replace",
       qPath: "/qHyperCubeDef/qMeasures/1/qDef/qLabel",
       qValue: JSON.stringify(playerLabels[1])
-    }
+    },
+    {
+      qOp: "replace",
+      qPath: "/qHyperCubeDef/qMeasures/2/qDef/qDef",
+      qValue: JSON.stringify(playerMeasures[2])
+    },
   ]);
 }
 
