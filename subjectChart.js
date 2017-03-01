@@ -14,7 +14,10 @@ class SubjectChart {
             'overflow-x': 'hidden'
         }).appendTo(this.$element);
         this.$axis = $("<div/>").css({
-            'height': '30px' 
+            'position': 'absolute',
+            'top': '30px',
+            'left': '0',
+            'z-index': -1
         }).appendTo(this.$element);
         this.margin = {top: 0, right: 30, bottom: 0, left: 120};
         this.width = this.$chart.width() - this.margin.left - this.margin.right;
@@ -42,7 +45,7 @@ class SubjectChart {
             .attr("height", `2000px`);
         this.svg.g = this.svg.append("g")
             .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
-        this.svg.xAxis = d3.select(this.$axis[0]).append("svg").attr("width", `${this.$axis.width()}px`).attr("height", `${this.$axis.height()}px`).append("g").attr("class", "x axis").attr("transform", `translate(${this.margin.left}, 0)`);
+        this.svg.xAxis = d3.select(this.$axis[0]).append("svg").attr("width", `${this.$chart.width()}px`).attr("height", `${this.$chart.height() + 10}px`).append("g").attr("class", "x axis").attr("transform", `translate(${this.margin.left}, ${this.$chart.height() + 0})`);
         this.svg.yAxis = this.svg.g.append("g").attr("class", "y axis");
         this.svg.defs = this.svg.append("defs");
         this.svg.defs.append("pattern")
@@ -116,7 +119,7 @@ class SubjectChart {
         this.x.domain([0, layout.qHyperCube.qMeasureInfo[2].qMax]);
         this.y.domain(this.matrix.map((d) => { return d[0].qText; }));
 
-        this.svg.xAxis.call(d3.axisBottom(this.x));
+        this.svg.xAxis.call(d3.axisBottom(this.x).tickSizeOuter(0).tickSizeInner(-this.$chart.height()));
         this.svg.yAxis.call(d3.axisLeft(this.y).tickSize(0).tickPadding(0));
 
         // this.svg.yAxis.selectAll(".tick")

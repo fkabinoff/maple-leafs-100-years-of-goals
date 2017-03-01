@@ -163,10 +163,10 @@ input[type="checkbox"]:checked + label[for="sh-checkbox"] span.checkbox::after {
 
 
 /* d3, tooltips, charts */
-.y.axis path {
+.y.axis path, .x.axis path {
   display: none;
 }
-.y.axis line {
+.y.axis line, .x.axis line {
   stroke: #ccc;
 }
 div.tooltip {
