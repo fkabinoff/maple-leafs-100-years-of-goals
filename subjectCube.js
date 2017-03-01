@@ -3,9 +3,11 @@ import SubjectChart from "./subjectChart";
 
 let subjectCube = {};
 subjectCube.element = "#subject-chart";
-let playerMeasure = "Sum(Goals) + Sum([Post-season Goals])";
-let playerLabel = "Goals";
-let opponentMeasure = "Sum({<[Regular/Post Season]={'Regular season'}>} [Opponent Goals]) + Sum({<[Regular/Post Season]={'Post-season'}>} [Opponent Goals])";
+subjectCube.currentState = "PlayerState";
+let playerMeasures = ["Sum(Goals)", "Sum([Post-season Goals])", "Sum(Goals) + Sum([Post-season Goals])"];
+let playerLabels = ["Regular Season Goals", "Post Season Goals"];
+let opponentMeasures = ["If(GetSelectedCount([Regular/Post Season])=1 and GetFieldSelections([Regular/Post Season])='Post-season', 0, Sum({<[Regular/Post Season]={'Regular season'}>} [Opponent Goals]))", "If(GetSelectedCount([Regular/Post Season])=1 and GetFieldSelections([Regular/Post Season])='Regular season', 0, Sum({<[Regular/Post Season]={'Post-season'}>} [Opponent Goals]))" , "Sum([Opponent Goals])"];
+let opponentLabels = ["Regular Season Goals", "Post Season Goals"];
 
 subjectCube.init = () => {
   return qlikapp.then((app) => {
@@ -25,8 +27,17 @@ subjectCube.init = () => {
         }],
         qMeasures: [{
           qDef: {
-            qDef: "Sum(Goals) + Sum([Post-season Goals])",
-            qLabel: playerLabel
+            qDef: "Sum(Goals)",
+            qLabel: playerLabels[0]
+          }
+        }, {
+          qDef: {
+            qDef: "Sum([Post-season Goals])",
+            qLabel: playerLabels[1]
+          }
+        }, {
+          qDef: {
+            qDef: "Sum(Goals) + Sum([Post-season Goals])"
           },
           qSortBy: {
             qSortByNumeric: -1
@@ -34,9 +45,9 @@ subjectCube.init = () => {
         }],
         qSuppressMissing: true,
         qSuppressZero: true,
-        qInterColumnSortOrder: [1,0],
+        qInterColumnSortOrder: [3,0],
         qInitialDataFetch: [{
-          qWidth: 2,
+          qWidth: 4,
           qHeight: 100
         }]
       }
@@ -54,6 +65,7 @@ subjectCube.init = () => {
 
 subjectCube.changeState = (state) => {
   if(state === "PlayerState") {
+    subjectCube.currentState = "PlayerState";
     return subjectCube.object.applyPatches([
       {
         qOp: "replace",
@@ -68,15 +80,31 @@ subjectCube.changeState = (state) => {
       {
         qOp: "replace",
         qPath: "/qHyperCubeDef/qMeasures/0/qDef/qDef",
-        qValue: JSON.stringify(playerMeasure)
+        qValue: JSON.stringify(playerMeasures[0])
       },
       {
         qOp: "replace",
         qPath: "/qHyperCubeDef/qMeasures/0/qDef/qLabel",
-        qValue: JSON.stringify(playerLabel)
-      }
+        qValue: JSON.stringify(playerLabels[0])
+      },
+      {
+        qOp: "replace",
+        qPath: "/qHyperCubeDef/qMeasures/1/qDef/qDef",
+        qValue: JSON.stringify(playerMeasures[1])
+      },
+      {
+        qOp: "replace",
+        qPath: "/qHyperCubeDef/qMeasures/1/qDef/qLabel",
+        qValue: JSON.stringify(playerLabels[1])
+      },
+      {
+        qOp: "replace",
+        qPath: "/qHyperCubeDef/qMeasures/2/qDef/qDef",
+        qValue: JSON.stringify(playerMeasures[2])
+      },
     ]);
   } else if (state === "OpponentState") {
+    subjectCube.currentState = "OpponentState";
     return subjectCube.object.applyPatches([
       {
         qOp: "replace",
@@ -91,44 +119,69 @@ subjectCube.changeState = (state) => {
       {
         qOp: "replace",
         qPath: "/qHyperCubeDef/qMeasures/0/qDef/qDef",
-        qValue: JSON.stringify("Sum([Opponent Goals])")
+        qValue: JSON.stringify(opponentMeasures[0])
       },
       {
         qOp: "replace",
         qPath: "/qHyperCubeDef/qMeasures/0/qDef/qLabel",
-        qValue: JSON.stringify("Goals")
-      }
+        qValue: JSON.stringify(opponentLabels[0])
+      },
+      {
+        qOp: "replace",
+        qPath: "/qHyperCubeDef/qMeasures/1/qDef/qDef",
+        qValue: JSON.stringify(opponentMeasures[1])
+      },
+      {
+        qOp: "replace",
+        qPath: "/qHyperCubeDef/qMeasures/1/qDef/qLabel",
+        qValue: JSON.stringify(opponentLabels[1])
+      },
+      {
+        qOp: "replace",
+        qPath: "/qHyperCubeDef/qMeasures/2/qDef/qDef",
+        qValue: JSON.stringify(opponentMeasures[2])
+      },
     ]);
   }
 }
 
 subjectCube.changeMeasure = (measure) => {
   if (measure === "Total") {
-    playerMeasure = "Sum(Goals) + Sum([Post-season Goals])";
-    playerLabel = "Goals";
+    playerMeasures = ["Sum(Goals)", "Sum([Post-season Goals])", "Sum(Goals) + Sum([Post-season Goals])"];
+    playerLabels = ["Regular Season Goals", "Post Season Goals"];
   } else if (measure === "EV") {
-    playerMeasure = "Sum([Even Strength Goals]) + Sum([Post-season Even Strength Goals])";
-    playerLabel = "Even Strength Goals";
+    playerMeasures = ["Sum([Even Strength Goals])", "Sum([Post-season Even Strength Goals])", "Sum([Even Strength Goals]) + Sum([Post-season Even Strength Goals])"];
+    playerLabels = ["Regular Season Even Strength Goals", "Post Season Even Strength Goals"];
   } else if (measure === "PP") {
-    playerMeasure = "Sum([Power Play Goals]) + Sum([Post-season Power Play Goals])";
-    playerLabel = "Power Play Goals";
+    playerMeasures = ["Sum([Power Play Goals])", "Sum([Post-season Power Play Goals])", "Sum([Power Play Goals]) + Sum([Post-season Power Play Goals])"];
+    playerLabels = ["Regular Season Power Play Goals", "Post Season Power Play Goals"];
   } else if (measure === "SH") {
-    playerMeasure = "Sum([Short Handed Goals]) + Sum([Post-season Short Handed Goals])";
-    playerLabel = "Short Handed Goals";
+    playerMeasures = ["Sum([Short Handed Goals])", "Sum([Post-season Short Handed Goals])", "Sum([Short Handed Goals]) + Sum([Post-season Short Handed Goals])"];
+    playerLabels = ["Regular Season Short Handed Goals", "Post Season Short Handed Goals"];
   } else if (measure === "GW") {
-    playerMeasure = "Sum([Game Winning Goals]) + Sum([Post-season Game Winning Goals])";
-    playerLabel = "Game Winning Goals";
+    playerMeasures = ["Sum([Game Winning Goals])", "Sum([Post-season Game Winning Goals])", "Sum([Game Winning Goals]) + Sum([Post-season Game Winning Goals])"];
+    playerLabels = ["Regular Season Game Winning Goals", "Post Season Game Winning Goals"];
   }
   return subjectCube.object.applyPatches([
     {
       qOp: "replace",
       qPath: "/qHyperCubeDef/qMeasures/0/qDef/qDef",
-      qValue: JSON.stringify(playerMeasure)
+      qValue: JSON.stringify(playerMeasures[0])
     },
     {
       qOp: "replace",
       qPath: "/qHyperCubeDef/qMeasures/0/qDef/qLabel",
-      qValue: JSON.stringify(playerLabel)
+      qValue: JSON.stringify(playerLabels[0])
+    },
+    {
+      qOp: "replace",
+      qPath: "/qHyperCubeDef/qMeasures/1/qDef/qDef",
+      qValue: JSON.stringify(playerMeasures[1])
+    },
+    {
+      qOp: "replace",
+      qPath: "/qHyperCubeDef/qMeasures/1/qDef/qLabel",
+      qValue: JSON.stringify(playerLabels[1])
     }
   ]);
 }
