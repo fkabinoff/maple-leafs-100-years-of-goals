@@ -4,6 +4,7 @@ import SeasonChart from "./seasonChart";
 let seasonCube = {};
 
 seasonCube.element = "#season-chart";
+seasonCube.currentState = "PlayerState";
 
 seasonCube.init = () => {
   return qlikapp.then((app) => {
@@ -86,6 +87,7 @@ seasonCube.init = () => {
 
 seasonCube.changeState = (state) => {
   if(state === "PlayerState") {
+    seasonCube.currentState = "PlayerState";
     return seasonCube.object.applyPatches([
       {
         qOp: "replace",
@@ -99,6 +101,7 @@ seasonCube.changeState = (state) => {
       }
     ]);
   } else if (state === "OpponentState") {
+    seasonCube.currentState = "OpponentState";
     return seasonCube.object.applyPatches([
       {
         qOp: "replace",

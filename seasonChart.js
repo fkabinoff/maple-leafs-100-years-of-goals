@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import qlikapp from "./qlikapp";
 
 class SeasonChart {
     constructor(cube) {
@@ -57,13 +58,43 @@ class SeasonChart {
             .attr("y", 0)
             .attr("width", 9)
             .attr("height", 9)
-            .attr("fill", "#666");
+            .attr("fill", "#666")
+            .on("click", () => {
+                if (this.cube.currentState === "PlayerState") {
+                    qlikapp.then((app) => {
+                        app.getField("[Regular/Post Season Flag]", "PlayerState").then((field) => {
+                            field.select("Regular");
+                        });
+                    });
+                } else if (this.cube.currentState === "OpponentState") {
+                    qlikapp.then((app) => {
+                        app.getField("[Regular/Post Season]", "OpponentState").then((field) => {
+                            field.select("Regular season");
+                        });
+                    });
+                }
+            });
         this.legend.append("text")
             .attr("x", 15)
             .attr("y", 8)
             .attr("font-size", "10px")
             .attr("fill", "#333")
-            .text("Regular Season");
+            .text("Regular Season")
+            .on("click", () => {
+                if (this.cube.currentState === "PlayerState") {
+                    qlikapp.then((app) => {
+                        app.getField("[Regular/Post Season Flag]", "PlayerState").then((field) => {
+                            field.select("Regular");
+                        });
+                    });
+                } else if (this.cube.currentState === "OpponentState") {
+                    qlikapp.then((app) => {
+                        app.getField("[Regular/Post Season]", "OpponentState").then((field) => {
+                            field.select("Regular season");
+                        });
+                    });
+                }
+            });
         this.legend.append("rect")
             .attr("x", 100)
             .attr("y", 0)
@@ -71,12 +102,42 @@ class SeasonChart {
             .attr("height", 9)
             .attr("fill", "#666")
             .attr("mask", `url(#${this.$element.attr("id")}-mask-stripe)`)
+            .on("click", () => {
+                if (this.cube.currentState === "PlayerState") {
+                    qlikapp.then((app) => {
+                        app.getField("[Regular/Post Season Flag]", "PlayerState").then((field) => {
+                            field.select("Post");
+                        });
+                    });
+                } else if (this.cube.currentState === "OpponentState") {
+                    qlikapp.then((app) => {
+                        app.getField("[Regular/Post Season]", "OpponentState").then((field) => {
+                            field.select("Post-season");
+                        });
+                    });
+                }
+            });
         this.legend.append("text")
             .attr("x", 115)
             .attr("y", 8)
             .attr("font-size", "10px")
             .attr("fill", "#333")
             .text("Post Season")
+            .on("click", () => {
+                if (this.cube.currentState === "PlayerState") {
+                    qlikapp.then((app) => {
+                        app.getField("[Regular/Post Season Flag]", "PlayerState").then((field) => {
+                            field.select("Post");
+                        });
+                    });
+                } else if (this.cube.currentState === "OpponentState") {
+                    qlikapp.then((app) => {
+                        app.getField("[Regular/Post Season]", "OpponentState").then((field) => {
+                            field.select("Post-season");
+                        });
+                    });
+                }
+            });
             
         $(window).resize(() => {
             this.resize();
