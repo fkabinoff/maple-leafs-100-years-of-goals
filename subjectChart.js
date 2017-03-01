@@ -169,7 +169,8 @@ class SubjectChart {
 
         this.layers = this.svg.g.selectAll(".subject-layer")
             .data(series);
-        this.layers    
+        this.layers.attr("fill", (d) => { return colorPalette[d.key]; });
+        this.layers
             .enter().append("g")
                 .attr("class", "subject-layer")
                 .attr("category", (d, i, j) => { 
@@ -187,10 +188,11 @@ class SubjectChart {
 
         this.items
             .attr("y", (d) => { return this.y(d.data["player"].qText); })
-            .attr("x", (d) => { return this.x(d[0]); })
+            .attr("x", 0)
             .attr("height", this.y.bandwidth())
             .attr("width", 0)
         .transition()
+            .attr("x", (d) => { return this.x(d[0]); })
             .attr("width", (d) => { return this.x(d[1]) - this.x(d[0]); });
 
         this.items.enter().append("rect")
@@ -227,10 +229,11 @@ class SubjectChart {
             })
             .attr("touch-action", "none")
             .attr("y", (d) => { return this.y(d.data["player"].qText); })
-            .attr("x", (d) => { return this.x(d[0]); })
+            .attr("x", 0)
             .attr("height", this.y.bandwidth())
             .attr("width", 0)
         .transition()
+            .attr("x", (d) => { return this.x(d[0]); })
             .attr("width", (d) => { return this.x(d[1]) - this.x(d[0]); });
             
         this.items.exit().remove();
