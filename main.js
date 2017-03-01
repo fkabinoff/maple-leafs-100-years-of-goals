@@ -83,6 +83,17 @@ qObjects.then((qObjects) => {
     let $target = $(event.target);
     $("#player-measure-dropdown .label").html($target.html());
     subjectCube.changeMeasure($target.attr("value"));
+    if ($target.attr("value") === "Total") {
+      $(".subject-chart-area .player-title").css("color", "#013878");
+    } else if ($target.attr("value") === "EV") {
+      $(".subject-chart-area .player-title").css("color", "#769fce");
+    } else if ($target.attr("value") === "PP") {
+      $(".subject-chart-area .player-title").css("color", "#3fb34f");
+    } else if ($target.attr("value") === "SH") {
+      $(".subject-chart-area .player-title").css("color", "#f69331");
+    } else if ($target.attr("value") === "GW") {
+      $(".subject-chart-area .player-title").css("color", "#CCBA3E");
+    }
   });
 });
 

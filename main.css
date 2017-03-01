@@ -219,7 +219,7 @@ div.tooltip:after{
   overflow-x: hidden;*/
 }
 .subject-chart-area-heading {
-  margin-bottom: 4px;
+  /*margin-bottom: 4px;*/
 }
 
 /* misc */
@@ -232,8 +232,8 @@ div.tooltip:after{
   font-size: 1.4rem;
 }
 .subject-chart-area li {
-  font-size: 1.2rem;
-  padding: 2px;
+  font-size: 1.2em;
+  padding: 2px 1em;
 }
 .opponent-state, .data-warning {
   display: none;
