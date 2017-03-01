@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import qlikapp from "./qlikapp";
+import typeList from "./typeList";
 
 class SeasonChart {
     constructor(cube) {
@@ -53,91 +54,57 @@ class SeasonChart {
             .attr("fill", `url(#${this.$element.attr("id")}-pattern-stripe)`);
         this.legend = this.svg.append("g")
             .attr("transform", "translate(" + (this.$element.width() - 190) + "," + 0 + ")");
-        this.legend.append("rect")
+        this.legend.regular = this.legend.append("g")
+            .attr("class", "regular")
+            .on("click", () => {
+                typeList.object.getLayout().then((layout) => {
+                    if (layout.qListObject.qDataPages[0].qMatrix[1][0].qState === "S") {
+                        typeList.object.selectListObjectValues("/qListObjectDef", [0], true );
+                    } else {
+                        typeList.object.selectListObjectValues("/qListObjectDef", [0], false );
+                    }
+                });
+            });
+        this.legend.regular.append("rect")
             .attr("x", 0)
             .attr("y", 0)
             .attr("width", 9)
             .attr("height", 9)
             .attr("fill", "#666")
-            .on("click", () => {
-                if (this.cube.currentState === "PlayerState") {
-                    qlikapp.then((app) => {
-                        app.getField("[Regular/Post Season Flag]", "PlayerState").then((field) => {
-                            field.select("Regular");
-                        });
-                    });
-                } else if (this.cube.currentState === "OpponentState") {
-                    qlikapp.then((app) => {
-                        app.getField("[Regular/Post Season]", "OpponentState").then((field) => {
-                            field.select("Regular season");
-                        });
-                    });
-                }
-            });
-        this.legend.append("text")
+            .style("cursor", "pointer");
+        this.legend.regular.append("text")
             .attr("x", 15)
             .attr("y", 8)
             .attr("font-size", "10px")
             .attr("fill", "#333")
             .text("Regular Season")
+            .style("cursor", "pointer");
+        this.legend.post = this.legend.append("g")
+            .attr("class", "post")
             .on("click", () => {
-                if (this.cube.currentState === "PlayerState") {
-                    qlikapp.then((app) => {
-                        app.getField("[Regular/Post Season Flag]", "PlayerState").then((field) => {
-                            field.select("Regular");
-                        });
-                    });
-                } else if (this.cube.currentState === "OpponentState") {
-                    qlikapp.then((app) => {
-                        app.getField("[Regular/Post Season]", "OpponentState").then((field) => {
-                            field.select("Regular season");
-                        });
-                    });
-                }
+                typeList.object.getLayout().then((layout) => {
+                    if (layout.qListObject.qDataPages[0].qMatrix[0][0].qState === "S") {
+                        typeList.object.selectListObjectValues("/qListObjectDef", [1], true );
+                    } else {
+                        typeList.object.selectListObjectValues("/qListObjectDef", [1], false );
+                    }
+                });
             });
-        this.legend.append("rect")
+        this.legend.post.append("rect")
             .attr("x", 100)
             .attr("y", 0)
             .attr("width", 9)
             .attr("height", 9)
             .attr("fill", "#666")
             .attr("mask", `url(#${this.$element.attr("id")}-mask-stripe)`)
-            .on("click", () => {
-                if (this.cube.currentState === "PlayerState") {
-                    qlikapp.then((app) => {
-                        app.getField("[Regular/Post Season Flag]", "PlayerState").then((field) => {
-                            field.select("Post");
-                        });
-                    });
-                } else if (this.cube.currentState === "OpponentState") {
-                    qlikapp.then((app) => {
-                        app.getField("[Regular/Post Season]", "OpponentState").then((field) => {
-                            field.select("Post-season");
-                        });
-                    });
-                }
-            });
-        this.legend.append("text")
+            .style("cursor", "pointer");
+        this.legend.post.append("text")
             .attr("x", 115)
             .attr("y", 8)
             .attr("font-size", "10px")
             .attr("fill", "#333")
             .text("Post Season")
-            .on("click", () => {
-                if (this.cube.currentState === "PlayerState") {
-                    qlikapp.then((app) => {
-                        app.getField("[Regular/Post Season Flag]", "PlayerState").then((field) => {
-                            field.select("Post");
-                        });
-                    });
-                } else if (this.cube.currentState === "OpponentState") {
-                    qlikapp.then((app) => {
-                        app.getField("[Regular/Post Season]", "OpponentState").then((field) => {
-                            field.select("Post-season");
-                        });
-                    });
-                }
-            });
+            .style("cursor", "pointer");
             
         $(window).resize(() => {
             this.resize();
