@@ -5,9 +5,20 @@ class SubjectChart {
     constructor(cube) {
         this.cube = cube;
         this.$element = $(cube.element);
-        this.margin = {top: 30, right: 30, bottom: 0, left: 120};
-        this.width = this.$element.width() - this.margin.left - this.margin.right;
-        this.height = this.$element.height() - this.margin.top - this.margin.bottom;
+        this.$legend = $("<div/>").css({
+            'height': '30px'
+        }).appendTo(this.$element);
+        this.$chart = $("<div/>").css({
+            'height': `${this.$element.height() - 60}px`,
+            'overflow-y': 'auto',
+            'overflow-x': 'hidden'
+        }).appendTo(this.$element);
+        this.$axis = $("<div/>").css({
+            'height': '30px' 
+        }).appendTo(this.$element);
+        this.margin = {top: 0, right: 30, bottom: 0, left: 120};
+        this.width = this.$chart.width() - this.margin.left - this.margin.right;
+        this.height = this.$chart.height() - this.margin.top - this.margin.bottom;
         this.errorMsg = d3.select(this.cube.element).append("div")
             .style("visibility", "hidden")
             .style("width", "100%")
@@ -26,13 +37,12 @@ class SubjectChart {
         this.tooltip = d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
-        this.svg = d3.select(this.cube.element).append("svg")
-            .attr("width", `${this.$element.width()}px`)
-            .attr("height", `${this.$element.height()}px`)
-            .attr("shape-rendering", "optimizeSpeed");
+        this.svg = d3.select(this.$chart[0]).append("svg")
+            .attr("width", `${this.$chart.width()}px`)
+            .attr("height", `2000px`);
         this.svg.g = this.svg.append("g")
             .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
-        this.svg.xAxis = this.svg.g.append("g").attr("class", "x axis").attr("transform", `translate(0, ${this.height})`);
+        this.svg.xAxis = d3.select(this.$axis[0]).append("svg").attr("width", `${this.$axis.width()}px`).attr("height", `${this.$axis.height()}px`).append("g").attr("class", "x axis").attr("transform", `translate(${this.margin.left}, 0)`);
         this.svg.yAxis = this.svg.g.append("g").attr("class", "y axis");
         this.svg.defs = this.svg.append("defs");
         this.svg.defs.append("pattern")
@@ -52,8 +62,8 @@ class SubjectChart {
             .attr("width", "100%")
             .attr("height", "100%")
             .attr("fill", `url(#${this.$element.attr("id")}-pattern-stripe)`);
-        this.legend = this.svg.append("g")
-            .attr("transform", "translate(" + (this.$element.width() - 190) + "," + 0 + ")");
+        this.legend = d3.select(this.$legend[0]).append("svg").attr("width", `${this.$legend.width()}px`).attr("height", `${this.$legend.height()}px`).append("g")
+            .attr("transform", "translate(" + (this.$legend.width() - 190) + "," + 0 + ")");
         this.legend.append("rect")
             .attr("x", 0)
             .attr("y", 0)
@@ -106,6 +116,7 @@ class SubjectChart {
         this.x.domain([0, layout.qHyperCube.qMeasureInfo[2].qMax]);
         this.y.domain(this.matrix.map((d) => { return d[0].qText; }));
 
+        this.svg.xAxis.call(d3.axisBottom(this.x));
         this.svg.yAxis.call(d3.axisLeft(this.y).tickSize(0).tickPadding(0));
 
         // this.svg.yAxis.selectAll(".tick")
