@@ -4,7 +4,7 @@ const qixSchema = require('json-loader!./node_modules/enigma.js/schemas/qix/3.1/
 const config = {
   schema: qixSchema,
   session: {
-    host: 'sense-demo-staging.qlik.com',
+    host: 'sense-demo.qlik.com',
 		prefix: '',
 		port: 443,
 		unsecure: false
