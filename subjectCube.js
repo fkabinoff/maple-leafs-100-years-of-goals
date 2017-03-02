@@ -5,9 +5,9 @@ let subjectCube = {};
 subjectCube.element = "#subject-chart";
 subjectCube.currentState = "PlayerState";
 let playerMeasures = ["Sum(Goals)", "Sum([Post-season Goals])", "Sum(Goals) + Sum([Post-season Goals])"];
-let playerLabels = ["Regular Season Goals", "Post Season Goals"];
+let playerLabels = ["Regular Season Goals", "Post-season Goals"];
 let opponentMeasures = ["If(GetSelectedCount([Regular/Post Season])=1 and GetFieldSelections([Regular/Post Season])='Post-season', 0, Sum({<[Regular/Post Season]={'Regular season'}>} [Opponent Goals]))", "If(GetSelectedCount([Regular/Post Season])=1 and GetFieldSelections([Regular/Post Season])='Regular season', 0, Sum({<[Regular/Post Season]={'Post-season'}>} [Opponent Goals]))" , "Sum([Opponent Goals])"];
-let opponentLabels = ["Regular Season Goals", "Post Season Goals"];
+let opponentLabels = ["Regular Season Goals", "Post-season Goals"];
 
 subjectCube.init = () => {
   return qlikapp.then((app) => {
@@ -148,19 +148,19 @@ subjectCube.changeState = (state) => {
 subjectCube.changeMeasure = (measure) => {
   if (measure === "Total") {
     playerMeasures = ["Sum(Goals)", "Sum([Post-season Goals])", "Sum(Goals) + Sum([Post-season Goals])"];
-    playerLabels = ["Regular Season Goals", "Post Season Goals"];
+    playerLabels = ["Regular Season Goals", "Post-season Goals"];
   } else if (measure === "EV") {
     playerMeasures = ["Sum([Even Strength Goals])", "Sum([Post-season Even Strength Goals])", "Sum([Even Strength Goals]) + Sum([Post-season Even Strength Goals])"];
-    playerLabels = ["Regular Season Even Strength Goals", "Post Season Even Strength Goals"];
+    playerLabels = ["Regular Season Even Strength Goals", "Post-season Even Strength Goals"];
   } else if (measure === "PP") {
     playerMeasures = ["Sum([Power Play Goals])", "Sum([Post-season Power Play Goals])", "Sum([Power Play Goals]) + Sum([Post-season Power Play Goals])"];
-    playerLabels = ["Regular Season Power Play Goals", "Post Season Power Play Goals"];
+    playerLabels = ["Regular Season Power-Play Goals", "Post-season Power-Play Goals"];
   } else if (measure === "SH") {
     playerMeasures = ["Sum([Short Handed Goals])", "Sum([Post-season Short Handed Goals])", "Sum([Short Handed Goals]) + Sum([Post-season Short Handed Goals])"];
-    playerLabels = ["Regular Season Short Handed Goals", "Post Season Short Handed Goals"];
+    playerLabels = ["Regular Season Shorthanded Goals", "Post-season Shorthanded Goals"];
   } else if (measure === "GW") {
     playerMeasures = ["Sum([Game Winning Goals])", "Sum([Post-season Game Winning Goals])", "Sum([Game Winning Goals]) + Sum([Post-season Game Winning Goals])"];
-    playerLabels = ["Regular Season Game Winning Goals", "Post Season Game Winning Goals"];
+    playerLabels = ["Regular Season Game Winning Goals", "Post-season Game Winning Goals"];
   }
   return subjectCube.object.applyPatches([
     {

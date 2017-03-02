@@ -103,7 +103,7 @@ class SeasonChart {
             .attr("y", 8)
             .attr("font-size", "10px")
             .attr("fill", "#333")
-            .text("Post Season")
+            .text("Post-season")
             .style("cursor", "pointer");
             
         $(window).resize(() => {
@@ -132,13 +132,13 @@ class SeasonChart {
 
         let colorPalette = {
             "Regular Season Goals": "#013878",
-            "Post Season Goals": "#013878",
+            "Post-season Goals": "#013878",
             "Regular Season Even Strength Goals": "#769fce",
-            "Regular Season Power Play Goals": "#3fb34f",
-            "Regular Season Short Handed Goals": "#f69331",
-            "Post Season Even Strength Goals": "#769fce",
-            "Post Season Power Play Goals": "#3fb34f", 
-            "Post Season Short Handed Goals": "#f69331" 
+            "Regular Season Power-Play Goals": "#3fb34f",
+            "Regular Season Shorthanded Goals": "#f69331",
+            "Post-season Even Strength Goals": "#769fce",
+            "Post-season Power-Play Goals": "#3fb34f", 
+            "Post-season Shorthanded Goals": "#f69331" 
         }
 
         let findAxisIndicies = (start, end, max) => {
@@ -182,7 +182,7 @@ class SeasonChart {
                 })
                 .attr("fill", (d) => { return colorPalette[d.key]; })
                 .attr("stroke", (d) => { return "#fff" })
-                .attr("mask", (d) => { if(d.key.indexOf("Post Season") === -1 ) { return null; } else { return `url(#${this.$element.attr("id")}-mask-stripe)`; } });
+                .attr("mask", (d) => { if(d.key.indexOf("Post-season") === -1 ) { return null; } else { return `url(#${this.$element.attr("id")}-mask-stripe)`; } });
         this.layers.exit().remove();
 
         this.layers = d3.selectAll(".layer");
