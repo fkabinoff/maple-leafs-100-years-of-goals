@@ -21,6 +21,42 @@ text {
   max-width: 768px;
 }
 
+.jumbo {
+  background: url(banner.jpg);
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
+  margin-bottom: 30px;
+}
+.jumbo .container-fluid {
+  height: 400px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  color: white;
+  text-align: center;
+}
+.jumbo .container-fluid a {
+  position: absolute;
+  top: 2px;
+  right: 0;
+}
+.jumbo .container-fluid h1 {
+  font-size: 4em;
+  text-align: center;
+  padding: 0 10%;
+}
+.jumbo .container-fluid img {
+  max-width: 100%;
+}
+.jumbo .container-fluid p {
+  font-size: 1.1em;
+  text-align: left;
+  border-top: 1px solid white;
+  margin-top: 15px;
+  padding-top: 15px;
+}
+
 /* Utility classes */
 .align-center {
   align-items: center;
