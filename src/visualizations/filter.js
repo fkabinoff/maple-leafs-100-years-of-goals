@@ -12,7 +12,7 @@ class Filter {
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                     <li>
                         <input type="text">
-                        <img class="search-icon" src="search-icon.png">
+                        <img class="search-icon" src="img/search-icon.png">
                     </li>
                     <ul class="items"></ul>
                 </ul>

@@ -1,11 +1,11 @@
 import qlikapp from "./qlikapp";
-import subjectList from "./subjectList";
-import seasonList from "./seasonList";
-import decadeList from "./decadeList";
-import seasonCube from "./seasonCube";
-import subjectCube from "./subjectCube";
-import expressions from "./expressions";
-import typeList from "./typeList";
+import subjectList from "./objects/subjectList";
+import seasonList from "./objects/seasonList";
+import decadeList from "./objects/decadeList";
+import seasonCube from "./objects/seasonCube";
+import subjectCube from "./objects/subjectCube";
+import expressions from "./objects/expressions";
+import typeList from "./objects/typeList";
 
 export default new Promise((resolve, reject) => {
   qlikapp.then((app) => {

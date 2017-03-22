@@ -1,12 +1,8 @@
-import qlikapp from "./qlikapp";
-import Filter from "./filter";
+import qlikapp from "../qlikapp";
 
-let subjectList = {};
+let typeList = {};
 
-subjectList.element = "#subject-filter";
-subjectList.toggle = false;
-
-subjectList.init = () => {
+typeList.init = () => {
   return qlikapp.then((app) => {
     return app.createSessionObject({
       qInfo: {
@@ -15,33 +11,36 @@ subjectList.init = () => {
       qListObjectDef: {
         qStateName: "PlayerState",
         qDef: {
-          qFieldDefs: ["[Player Name 2]"],
-          qFieldLabels: ["Players"]
-        },
-        qAutoSortByState: {
-          qDisplayNumberOfRows: 1
+          qFieldDefs: ["[Regular/Post Season Flag]"]
         },
         qShowAlternatives: true,
         qInitialDataFetch: [{
           qWidth: 1,
-          qHeight: 1000
+          qHeight: 2
         }]
       }
     });
   }).then((object) => {
-    subjectList.object = object;
-    subjectList.filter = new Filter(subjectList);
+    typeList.object = object;
     const update = () => object.getLayout().then((layout) => {
-      subjectList.filter.update(layout);
+      if (layout.qListObject.qDataPages[0].qMatrix[1][0].qState === "S") {
+        $(".regular").css("opacity", 1);
+        $(".post").css("opacity", .4);
+      } else if (layout.qListObject.qDataPages[0].qMatrix[0][0].qState === "S") {
+        $(".regular").css("opacity", .4);
+        $(".post").css("opacity", 1);
+      } else {
+        $(".regular, .post").css("opacity", 1);
+      }
     });
     object.on('changed', update);
     update();
   });
 }
 
-subjectList.changeState = (state) => {
+typeList.changeState = (state) => {
   if(state === "PlayerState") {
-    return subjectList.object.applyPatches([
+    return typeList.object.applyPatches([
       {
           qOp: "replace",
           qPath: "/qListObjectDef/qStateName",
@@ -50,16 +49,11 @@ subjectList.changeState = (state) => {
       {
           qOp: "replace",
           qPath: "/qListObjectDef/qDef/qFieldDefs/0",
-          qValue: JSON.stringify("[Player Name 2]")
-      },
-      {
-          qOp: "replace",
-          qPath: "/qListObjectDef/qDef/qFieldLabels/0",
-          qValue: JSON.stringify("Players")
+          qValue: JSON.stringify("[Regular/Post Season Flag]")
       }
     ]);
   } else if (state === "OpponentState") {
-    return subjectList.object.applyPatches([
+    return typeList.object.applyPatches([
       {
           qOp: "replace",
           qPath: "/qListObjectDef/qStateName",
@@ -68,15 +62,10 @@ subjectList.changeState = (state) => {
       {
           qOp: "replace",
           qPath: "/qListObjectDef/qDef/qFieldDefs/0",
-          qValue: JSON.stringify("[Opponent]")
-      },
-      {
-          qOp: "replace",
-          qPath: "/qListObjectDef/qDef/qFieldLabels/0",
-          qValue: JSON.stringify("Opponents")
+          qValue: JSON.stringify("[Regular/Post Season]")
       }
     ]);
   }
 }
 
-export default subjectList;
+export default typeList;

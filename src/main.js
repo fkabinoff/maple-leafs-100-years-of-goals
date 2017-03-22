@@ -1,6 +1,6 @@
 import qlikapp from "./qlikapp";
 import qObjects from "./qObjects";
-import subjectCube from "./subjectCube";
+import subjectCube from "./objects/subjectCube";
 
 let state = "PlayerState";
 

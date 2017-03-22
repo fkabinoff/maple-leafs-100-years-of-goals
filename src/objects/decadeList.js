@@ -1,8 +1,12 @@
-import qlikapp from "./qlikapp";
+import qlikapp from "../qlikapp";
+import Filter from "../visualizations/filter";
 
-let typeList = {};
+let decadeList = {};
 
-typeList.init = () => {
+decadeList.element = "#decade-filter";
+decadeList.toggle = true;
+
+decadeList.init = () => {
   return qlikapp.then((app) => {
     return app.createSessionObject({
       qInfo: {
@@ -11,36 +15,33 @@ typeList.init = () => {
       qListObjectDef: {
         qStateName: "PlayerState",
         qDef: {
-          qFieldDefs: ["[Regular/Post Season Flag]"]
+          qFieldDefs: ["[Player Season Decade]"],
+          qFieldLabels: ["Decades"]
+        },
+        qAutoSortByState: {
+          qDisplayNumberOfRows: 1
         },
         qShowAlternatives: true,
         qInitialDataFetch: [{
           qWidth: 1,
-          qHeight: 2
+          qHeight: 1000
         }]
       }
     });
   }).then((object) => {
-    typeList.object = object;
+    decadeList.object = object;
+    decadeList.filter = new Filter(decadeList);
     const update = () => object.getLayout().then((layout) => {
-      if (layout.qListObject.qDataPages[0].qMatrix[1][0].qState === "S") {
-        $(".regular").css("opacity", 1);
-        $(".post").css("opacity", .4);
-      } else if (layout.qListObject.qDataPages[0].qMatrix[0][0].qState === "S") {
-        $(".regular").css("opacity", .4);
-        $(".post").css("opacity", 1);
-      } else {
-        $(".regular, .post").css("opacity", 1);
-      }
+      decadeList.filter.update(layout);
     });
     object.on('changed', update);
     update();
   });
 }
 
-typeList.changeState = (state) => {
+decadeList.changeState = (state) => {
   if(state === "PlayerState") {
-    return typeList.object.applyPatches([
+    return decadeList.object.applyPatches([
       {
           qOp: "replace",
           qPath: "/qListObjectDef/qStateName",
@@ -49,11 +50,11 @@ typeList.changeState = (state) => {
       {
           qOp: "replace",
           qPath: "/qListObjectDef/qDef/qFieldDefs/0",
-          qValue: JSON.stringify("[Regular/Post Season Flag]")
+          qValue: JSON.stringify("[Player Season Decade]")
       }
     ]);
   } else if (state === "OpponentState") {
-    return typeList.object.applyPatches([
+    return decadeList.object.applyPatches([
       {
           qOp: "replace",
           qPath: "/qListObjectDef/qStateName",
@@ -62,10 +63,10 @@ typeList.changeState = (state) => {
       {
           qOp: "replace",
           qPath: "/qListObjectDef/qDef/qFieldDefs/0",
-          qValue: JSON.stringify("[Regular/Post Season]")
+          qValue: JSON.stringify("[Opponent Season Decade]")
       }
     ]);
   }
 }
 
-export default typeList;
+export default decadeList;

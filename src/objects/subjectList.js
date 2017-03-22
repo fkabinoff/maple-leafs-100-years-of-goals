@@ -1,12 +1,12 @@
-import qlikapp from "./qlikapp";
-import Filter from "./filter";
+import qlikapp from "../qlikapp";
+import Filter from "../visualizations/filter";
 
-let decadeList = {};
+let subjectList = {};
 
-decadeList.element = "#decade-filter";
-decadeList.toggle = true;
+subjectList.element = "#subject-filter";
+subjectList.toggle = false;
 
-decadeList.init = () => {
+subjectList.init = () => {
   return qlikapp.then((app) => {
     return app.createSessionObject({
       qInfo: {
@@ -15,8 +15,8 @@ decadeList.init = () => {
       qListObjectDef: {
         qStateName: "PlayerState",
         qDef: {
-          qFieldDefs: ["[Player Season Decade]"],
-          qFieldLabels: ["Decades"]
+          qFieldDefs: ["[Player Name 2]"],
+          qFieldLabels: ["Players"]
         },
         qAutoSortByState: {
           qDisplayNumberOfRows: 1
@@ -29,19 +29,19 @@ decadeList.init = () => {
       }
     });
   }).then((object) => {
-    decadeList.object = object;
-    decadeList.filter = new Filter(decadeList);
+    subjectList.object = object;
+    subjectList.filter = new Filter(subjectList);
     const update = () => object.getLayout().then((layout) => {
-      decadeList.filter.update(layout);
+      subjectList.filter.update(layout);
     });
     object.on('changed', update);
     update();
   });
 }
 
-decadeList.changeState = (state) => {
+subjectList.changeState = (state) => {
   if(state === "PlayerState") {
-    return decadeList.object.applyPatches([
+    return subjectList.object.applyPatches([
       {
           qOp: "replace",
           qPath: "/qListObjectDef/qStateName",
@@ -50,11 +50,16 @@ decadeList.changeState = (state) => {
       {
           qOp: "replace",
           qPath: "/qListObjectDef/qDef/qFieldDefs/0",
-          qValue: JSON.stringify("[Player Season Decade]")
+          qValue: JSON.stringify("[Player Name 2]")
+      },
+      {
+          qOp: "replace",
+          qPath: "/qListObjectDef/qDef/qFieldLabels/0",
+          qValue: JSON.stringify("Players")
       }
     ]);
   } else if (state === "OpponentState") {
-    return decadeList.object.applyPatches([
+    return subjectList.object.applyPatches([
       {
           qOp: "replace",
           qPath: "/qListObjectDef/qStateName",
@@ -63,10 +68,15 @@ decadeList.changeState = (state) => {
       {
           qOp: "replace",
           qPath: "/qListObjectDef/qDef/qFieldDefs/0",
-          qValue: JSON.stringify("[Opponent Season Decade]")
+          qValue: JSON.stringify("[Opponent]")
+      },
+      {
+          qOp: "replace",
+          qPath: "/qListObjectDef/qDef/qFieldLabels/0",
+          qValue: JSON.stringify("Opponents")
       }
     ]);
   }
 }
 
-export default decadeList;
+export default subjectList;

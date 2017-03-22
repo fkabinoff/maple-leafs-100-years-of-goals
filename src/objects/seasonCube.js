@@ -1,5 +1,5 @@
-import qlikapp from "./qlikapp";
-import SeasonChart from "./seasonChart";
+import qlikapp from "../qlikapp";
+import SeasonChart from "../visualizations/seasonChart";
 
 let seasonCube = {};
 

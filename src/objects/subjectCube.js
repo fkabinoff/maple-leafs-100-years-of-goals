@@ -1,5 +1,5 @@
-import qlikapp from "./qlikapp";
-import SubjectChart from "./subjectChart";
+import qlikapp from "../qlikapp";
+import SubjectChart from "../visualizations/subjectChart";
 
 let subjectCube = {};
 subjectCube.element = "#subject-chart";

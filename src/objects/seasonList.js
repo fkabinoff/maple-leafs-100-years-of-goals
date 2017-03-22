@@ -1,5 +1,5 @@
-import qlikapp from "./qlikapp";
-import Filter from "./filter";
+import qlikapp from "../qlikapp";
+import Filter from "../visualizations/filter";
 
 let seasonList = {};
 

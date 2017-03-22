@@ -22,7 +22,7 @@ text {
 }
 
 .jumbo {
-  background: url(banner.jpg);
+  background: url(img/banner.jpg);
   background-repeat: no-repeat;
   background-position: top center;
   background-size: cover;

@@ -1,5 +1,5 @@
 const enigma = require('enigma.js');
-const qixSchema = require('json-loader!./node_modules/enigma.js/schemas/qix/3.1/schema.json');
+const qixSchema = require('json-loader!../node_modules/enigma.js/schemas/qix/3.1/schema.json');
 
 const config = {
   schema: qixSchema,

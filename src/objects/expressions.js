@@ -1,4 +1,4 @@
-import qlikapp from "./qlikapp";
+import qlikapp from "../qlikapp";
 
 let expressions = {};
 
