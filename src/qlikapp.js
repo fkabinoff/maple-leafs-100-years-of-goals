@@ -11,19 +11,8 @@ const config = {
   }
 };
 
-// const config = {
-//   schema: qixSchema,
-//   session: {
-//     host: 'localhost',
-// 		prefix: '',
-// 		port: 4848,
-// 		unsecure: true
-//   }
-// };
-
 export default enigma.getService('qix', config).then((qix) => {
   return qix.global.openApp('bde082fa-6317-4b87-9e71-48933d434954').then((app) => {
-  //return qix.global.openApp('National Post - Toronto Maple Leafs(1).qvf').then((app) => {
     return app.getAppLayout().then((layout) => {
       let playerState, opponentState;
       if (layout.qStateNames.indexOf("PlayerState") == -1) {
